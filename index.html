@@ -6,23 +6,13 @@
 <title>English Daily Coach – Arip</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
-
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#0d0f14;
-  --surface:#141720;
-  --card:#1c2030;
-  --border:#252a40;
-  --green:#4ade80;
-  --blue:#60a5fa;
-  --yellow:#fbbf24;
-  --purple:#a78bfa;
-  --red:#f87171;
-  --text:#f0f2ff;
-  --muted:#636b8a;
-  --muted2:#8891b0;
+  --bg:#0d0f14;--surface:#141720;--card:#1c2030;--border:#252a40;
+  --green:#4ade80;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa;
+  --red:#f87171;--text:#f0f2ff;--muted:#636b8a;--muted2:#8891b0;
 }
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
 
 /* HEADER */
 .header{padding:20px 16px 0;display:flex;align-items:center;justify-content:space-between;}
@@ -59,45 +49,103 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 /* SECTION LABEL */
 .section-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;margin-top:4px;}
 
-/* ===== CHECKLIST PANEL ===== */
-.cal-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px;scrollbar-width:none;}
-.cal-strip::-webkit-scrollbar{display:none;}
-.cal-day{min-width:44px;height:60px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0;}
-.cal-day .cd-name{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:3px;}
-.cal-day .cd-num{font-size:17px;font-weight:800;color:var(--muted2);}
-.cal-day.active{background:var(--blue);border-color:var(--blue);}
-.cal-day.active .cd-name{color:rgba(255,255,255,.7);}
-.cal-day.active .cd-num{color:#fff;}
-.cal-day.has-done{border-color:var(--green);}
-.cal-day.has-done .cd-num{color:var(--green);}
+/* ===== LEVEL PROGRESS ===== */
+.level-progress{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:16px;}
+.lp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.lp-phase{font-size:11px;font-weight:700;color:var(--muted2);}
+.lp-nums{font-size:13px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--blue);}
+.lp-track{height:6px;background:var(--card);border-radius:3px;overflow:hidden;margin-top:8px;}
+.lp-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:3px;transition:width .4s ease;}
+.lp-phase-dots{display:flex;gap:4px;margin-top:8px;}
+.lp-pd{flex:1;height:3px;border-radius:2px;background:var(--card);}
+.lp-pd.active{background:var(--blue);}
+.lp-pd.done{background:var(--green);}
 
-.task-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;transition:border-color .15s;}
-.task-card.done-card{border-color:rgba(74,222,128,.35);background:rgba(74,222,128,.04);}
-.task-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-.task-check{width:24px;height:24px;border-radius:7px;border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .15s;flex-shrink:0;background:transparent;}
-.task-check.checked{background:var(--green);border-color:var(--green);}
-.task-meta{flex:1;}
-.task-badge{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-bottom:3px;display:inline-block;}
-.badge-wajib{background:rgba(251,191,36,.15);color:var(--yellow);}
-.badge-bonus{background:rgba(167,139,250,.15);color:var(--purple);}
-.task-title{font-size:14px;font-weight:700;color:var(--text);}
-.task-title.striked{text-decoration:line-through;color:var(--muted);}
-.task-desc{font-size:12px;color:var(--muted2);line-height:1.6;margin-bottom:8px;}
-.task-example{background:var(--card);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--green);font-family:'JetBrains Mono',monospace;line-height:1.5;}
-.task-example em{color:var(--muted2);font-style:normal;font-size:11px;display:block;margin-bottom:3px;}
+/* ===== MISSION PATH ===== */
+.phase-section{margin-bottom:8px;}
+.phase-hdr{display:flex;align-items:center;gap:8px;padding:8px 0 6px;cursor:pointer;}
+.phase-badge{font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;}
+.pb-1{background:rgba(96,165,250,.15);color:var(--blue);}
+.pb-2{background:rgba(167,139,250,.15);color:var(--purple);}
+.pb-3{background:rgba(251,191,36,.15);color:var(--yellow);}
+.pb-4{background:rgba(74,222,128,.15);color:var(--green);}
+.phase-hdr-title{font-size:12px;font-weight:700;flex:1;color:var(--muted2);}
+.phase-hdr-arr{color:var(--muted);font-size:10px;transition:transform .2s;}
+.phase-hdr-arr.open{transform:rotate(180deg);}
+.phase-missions{display:none;}
+.phase-missions.open{display:block;}
 
-.progress-bar-wrap{background:var(--surface);border-radius:12px;padding:12px 14px;margin-bottom:14px;border:1px solid var(--border);}
-.pb-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.pb-label{font-size:12px;font-weight:700;color:var(--muted2);}
-.pb-pct{font-size:13px;font-weight:800;color:var(--green);font-family:'JetBrains Mono',monospace;}
-.pb-track{height:6px;background:var(--card);border-radius:3px;overflow:hidden;}
-.pb-fill{height:100%;background:var(--green);border-radius:3px;transition:width .4s ease;}
+.mission-path{position:relative;padding-left:34px;}
+.mission-path::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:var(--border);border-radius:1px;}
 
-.complete-banner{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:12px;padding:12px 14px;margin-bottom:14px;text-align:center;display:none;}
-.complete-banner.show{display:block;}
-.complete-banner .cb-emoji{font-size:28px;margin-bottom:4px;}
-.complete-banner .cb-title{font-size:14px;font-weight:800;color:var(--green);}
-.complete-banner .cb-sub{font-size:12px;color:var(--muted2);margin-top:2px;}
+.mission-item{position:relative;margin-bottom:8px;}
+.mission-dot{position:absolute;left:-23px;top:13px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;border:2px solid var(--border);background:var(--card);z-index:1;flex-shrink:0;}
+.mission-dot.mdone{background:var(--green);border-color:var(--green);}
+.mission-dot.mcurrent{background:var(--blue);border-color:var(--blue);animation:mpulse 2s infinite;}
+.mission-dot.mlocked{opacity:.4;}
+@keyframes mpulse{0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,.5);}60%{box-shadow:0 0 0 6px rgba(96,165,250,0);}}
+
+.mission-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s;}
+.mission-card.mdone{border-color:rgba(74,222,128,.25);background:rgba(74,222,128,.02);}
+.mission-card.mcurrent{border-color:var(--blue);}
+.mission-card.mlocked{opacity:.45;pointer-events:none;}
+
+.mission-card-hdr{display:flex;align-items:center;gap:8px;padding:11px 12px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.mc-num{font-size:9px;font-weight:800;color:var(--muted);font-family:'JetBrains Mono',monospace;min-width:28px;}
+.mc-info{flex:1;}
+.mc-focus{font-size:13px;font-weight:700;line-height:1.2;}
+.mc-week{font-size:10px;color:var(--muted);margin-top:1px;}
+.mc-icon{font-size:15px;}
+
+.mission-body{padding:0 12px 12px;border-top:1px solid var(--border);}
+.mb-task{font-size:13px;color:var(--text);line-height:1.65;padding:10px 0 8px;}
+.mb-entry{font-size:11px;color:var(--green);background:rgba(74,222,128,.08);border-radius:7px;padding:6px 10px;margin-bottom:12px;font-family:'JetBrains Mono',monospace;line-height:1.5;}
+
+/* ACTION AREAS */
+.action-area{}
+.action-textarea{width:100%;min-height:80px;padding:10px;background:var(--card);border:1px solid var(--border);border-radius:9px;color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;resize:vertical;outline:none;transition:border-color .15s;line-height:1.5;display:block;}
+.action-textarea:focus{border-color:var(--blue);}
+.action-textarea::placeholder{color:var(--muted);}
+
+.shadow-text-box{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.shadow-text{font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--yellow);line-height:1.6;flex:1;}
+
+.external-note{background:var(--card);border-radius:9px;padding:10px 12px;font-size:12px;color:var(--muted2);margin-bottom:10px;line-height:1.6;}
+
+.listen-box{background:var(--card);border-radius:9px;padding:12px;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
+.listen-timer{font-size:26px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--blue);min-width:56px;}
+.listen-info{flex:1;font-size:12px;color:var(--muted2);line-height:1.5;}
+
+.record-area{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+audio{width:100%;height:36px;border-radius:8px;}
+
+.btn-ac{width:100%;padding:11px;border-radius:10px;border:none;font-size:13px;font-weight:800;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;margin-top:4px;}
+.btn-record-start{background:rgba(248,113,113,.15);color:var(--red);}
+.btn-record-stop{background:var(--red);color:#fff;}
+.btn-listen-go{background:rgba(96,165,250,.15);color:var(--blue);}
+.btn-done{background:var(--green);color:#0d0f14;opacity:.35;pointer-events:none;margin-top:8px;}
+.btn-done.ready{opacity:1;pointer-events:auto;}
+.btn-done-review{background:var(--card);border:1px solid var(--border);color:var(--muted2);margin-top:6px;font-size:12px;}
+.done-answer-wrap{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:10px 12px;margin-top:4px;}
+.done-answer-label{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.done-answer-text{font-size:13px;color:var(--text);line-height:1.65;}
+.done-answer-empty{font-size:12px;color:var(--muted);font-style:italic;}
+.btn-grammar{background:rgba(167,139,250,.12);color:var(--purple);margin-top:6px;}
+.grammar-result{margin-top:8px;}
+.grammar-ok{font-size:12px;color:var(--green);padding:8px 10px;background:rgba(74,222,128,.08);border-radius:8px;font-weight:700;}
+.grammar-checking{font-size:12px;color:var(--muted);padding:8px 10px;text-align:center;}
+.grammar-error-item{background:var(--card);border:1px solid rgba(248,113,113,.3);border-radius:9px;padding:10px 12px;margin-bottom:6px;}
+.ge-original{font-size:12px;color:var(--red);font-family:'JetBrains Mono',monospace;margin-bottom:3px;text-decoration:line-through;}
+.ge-msg{font-size:11px;color:var(--muted2);margin-bottom:6px;line-height:1.5;}
+.ge-suggestions{display:flex;flex-wrap:wrap;gap:5px;}
+.ge-sug{font-size:12px;font-weight:700;color:#0d0f14;background:var(--green);padding:3px 10px;border-radius:20px;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif;}
+.ge-sug:active{opacity:.8;}
+
+/* SPEAK BUTTON */
+.speak-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:2px 5px;border-radius:6px;color:var(--muted);transition:color .15s;flex-shrink:0;line-height:1;}
+.speak-btn:hover,.speak-btn:active{color:var(--blue);}
+.speak-btn.speaking{color:var(--blue);}
+.vc-ph{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:2px;letter-spacing:.3px;}
 
 /* ===== PHRASES PANEL ===== */
 .search-box{position:relative;margin-bottom:14px;}
@@ -105,7 +153,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .search-box input:focus{border-color:var(--blue);}
 .search-box input::placeholder{color:var(--muted);}
 .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none;}
-
 .cat-block{margin-bottom:12px;}
 .cat-hdr{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:5px;}
 .cat-hdr-icon{font-size:15px;}
@@ -127,10 +174,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .vocab-search input:focus{border-color:var(--purple);}
 .vocab-search input::placeholder{color:var(--muted);}
 .vocab-search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;pointer-events:none;}
-
 .vocab-results{margin-bottom:12px;}
 .vocab-result-label{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600;}
-
 .vocab-grp{margin-bottom:12px;}
 .vg-hdr{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:5px;}
 .vg-icon{font-size:15px;}
@@ -145,12 +190,30 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .vc-en{font-size:14px;font-weight:700;color:var(--yellow);font-family:'JetBrains Mono',monospace;}
 .vc-id{font-size:11px;color:var(--muted2);margin-top:2px;}
 .vc-ex{font-size:11px;color:var(--purple);margin-top:4px;font-style:italic;}
-
 .no-result{text-align:center;padding:24px;color:var(--muted);font-size:13px;}
+
+/* TRANSLATE */
+.online-search-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:4px;}
+.translate-lang-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.tlang{font-size:12px;font-weight:700;color:var(--muted2);}
+.btn-swap{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:4px 10px;color:var(--blue);font-size:14px;cursor:pointer;font-weight:800;}
+.btn-swap:active{opacity:.7;}
+.translate-input{width:100%;padding:10px;background:var(--card);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;resize:none;line-height:1.5;transition:border-color .15s;}
+.translate-input:focus{border-color:var(--green);}
+.translate-input::placeholder{color:var(--muted);}
+.btn-online-search{padding:10px 16px;background:var(--green);color:#0d0f14;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;flex-shrink:0;}
+.btn-online-search:active{opacity:.8;}
+.translate-result-card{margin-top:12px;border-top:1px solid var(--border);padding-top:12px;}
+.tr-result-text{font-size:15px;font-weight:700;color:var(--green);line-height:1.6;font-family:'JetBrains Mono',monospace;}
+.tr-result-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.tr-loading{text-align:center;padding:16px;color:var(--muted);font-size:13px;}
+.tr-error{text-align:center;padding:14px;color:var(--red);font-size:13px;}
+.tr-copy-hint{font-size:10px;color:var(--muted);margin-top:6px;}
 
 /* TOAST */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--green);color:#0d0f14;font-size:12px;font-weight:800;padding:8px 20px;border-radius:20px;transition:transform .25s;pointer-events:none;z-index:999;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
+.toast.level-up{background:var(--blue);color:#fff;font-size:13px;}
 </style>
 </head>
 <body>
@@ -159,12 +222,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   <div class="header-logo">🇬🇧 Daily Coach</div>
   <div class="header-date" id="header-date"></div>
 </div>
-
 <div class="hero">
   <div class="hero-greeting">Halo, <span>Arip</span> 👋</div>
-  <div class="hero-sub">Satu kalimat hari ini = satu langkah menuju fluent.</div>
+  <div class="hero-sub">Satu misi hari ini = satu langkah menuju fluent.</div>
 </div>
-
 <div class="streak-bar">
   <div class="streak-fire">🔥</div>
   <div class="streak-info">
@@ -175,35 +236,15 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 </div>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('checklist')">✅ Daily</button>
+  <button class="tab active" onclick="switchTab('misi')">🎯 Misi</button>
   <button class="tab" onclick="switchTab('phrases')">💬 Phrases</button>
   <button class="tab" onclick="switchTab('vocab')">📖 Vocab</button>
 </div>
 
-<!-- CHECKLIST PANEL -->
-<div class="panel active" id="panel-checklist">
-  <div class="section-label">Pilih Tanggal</div>
-  <div class="cal-strip" id="cal-strip"></div>
-
-  <div class="progress-bar-wrap">
-    <div class="pb-top">
-      <span class="pb-label">Progress hari ini</span>
-      <span class="pb-pct" id="pb-pct">0%</span>
-    </div>
-    <div class="pb-track"><div class="pb-fill" id="pb-fill" style="width:0%"></div></div>
-  </div>
-
-  <div class="complete-banner" id="complete-banner">
-    <div class="cb-emoji">🎉</div>
-    <div class="cb-title">Semua selesai hari ini!</div>
-    <div class="cb-sub">Otak lo udah latihan. Besok lanjut lagi.</div>
-  </div>
-
-  <div class="section-label">Tugas Wajib</div>
-  <div id="tasks-required"></div>
-
-  <div class="section-label" style="margin-top:16px;">Bonus (kalau sempat)</div>
-  <div id="tasks-bonus"></div>
+<!-- MISI PANEL -->
+<div class="panel active" id="panel-misi">
+  <div id="level-progress-wrap"></div>
+  <div id="mission-path-wrap"></div>
 </div>
 
 <!-- PHRASES PANEL -->
@@ -217,311 +258,969 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 <!-- VOCAB PANEL -->
 <div class="panel" id="panel-vocab">
-  <div class="vocab-search">
+  <!-- Translate -->
+  <div class="online-search-wrap">
+    <div class="translate-lang-row">
+      <span class="tlang active" id="tlang-label">🇮🇩 Indonesia → 🇬🇧 English</span>
+      <button class="btn-swap" onclick="swapLang()" title="Balik arah">⇄</button>
+    </div>
+    <textarea id="translate-input" class="translate-input" placeholder="Ketik teks yang mau diterjemahkan..." rows="2" onkeydown="if(event.ctrlKey&&event.key==='Enter')doTranslate()"></textarea>
+    <button class="btn-online-search" onclick="doTranslate()" style="width:100%;margin-top:8px;">Terjemahkan</button>
+    <div id="translate-result"></div>
+  </div>
+  <!-- Local vocab search -->
+  <div class="vocab-search" style="margin-top:8px;">
     <span class="vocab-search-icon">🔍</span>
-    <input type="text" id="vocab-search" placeholder="Cari vocab... (misal: data, present)" oninput="filterVocab()">
+    <input type="text" id="vocab-search" placeholder="Filter vocab tersimpan..." oninput="filterVocab()">
   </div>
   <div id="vocab-search-results"></div>
   <div id="vocab-container"></div>
 </div>
 
-<div class="toast" id="toast">Disalin! ✓</div>
+<div class="toast" id="toast"></div>
 
 <script>
 // ================================================================
-// DATA
+// MISSIONS DATA
 // ================================================================
-const REQUIRED_TASKS = [
-  {
-    id: 'mirror',
-    title: 'Mirror Moment',
-    desc: 'Di kamar mandi, ngomong 1 kalimat tentang rencana hari ini. Ga perlu sempurna — yang penting mulut bergerak!',
-    example: '"Today I need to lead the sprint review meeting."',
-    tip: 'Tip: Pakai template dari tab Phrases kalau bingung mau ngomong apa.'
-  },
-  {
-    id: 'listen',
-    title: 'Passive Listening 5 menit',
-    desc: 'Putar podcast atau YouTube berbahasa Inggris di background sambil kerja. Tujuannya cuma biasain telinga.',
-    example: 'Lenny\'s Podcast / Product School / How I Built This',
-    tip: 'Tip: Ga harus fokus 100%. Sambil buka Jira atau Notion juga oke.'
-  },
-  {
-    id: 'sentence',
-    title: 'One Sentence Practice',
-    desc: 'Pilih 1 phrase dari tab Phrases, ucapkan keras 3x. Atau tulis di notes HP. Bebas formatnya.',
-    example: '"Can we align on the priority first?"',
-    tip: 'Tip: Buka tab Phrases, tap kartu, ucapkan. 30 detik selesai.'
-  },
+const PHASE_NAMES = {
+  1: 'Phase 1 — Ear Training & Pronunciation',
+  2: 'Phase 2 — Low-Stakes Speaking',
+  3: 'Phase 3 — PM Scenarios I',
+  4: 'Phase 4 — PM Scenarios II & Real Exposure'
+};
+
+const MISSIONS = [
+  // ── PHASE 1 · WEEK 1 ──────────────────────────────────────────
+  {id:1,ph:1,wk:1,dy:1,focus:'Mindset',
+   task:'Tulis 1 kalimat bahasa Inggris tentang harimu di kerjaan. Tidak perlu benar.',
+   entry:'1 kalimat, boleh salah grammar',
+   action:'write',prompt:'Tulis kalimatmu di sini...'},
+  {id:2,ph:1,wk:1,dy:2,focus:'Listening Pasif',
+   task:'Dengarkan 5 menit podcast/video English (topik bebas) sambil kerja santai.',
+   entry:'Cukup dengar, tidak perlu paham semua',
+   action:'listen',mins:5},
+  {id:3,ph:1,wk:1,dy:3,focus:'Speaking Micro',
+   task:'Rekam suaramu: "Today I worked on ___" — isi dengan pekerjaan harianmu.',
+   entry:'1 kalimat, boleh diulang berkali-kali',
+   action:'record'},
+  {id:4,ph:1,wk:1,dy:4,focus:'Shadowing Intro',
+   task:'Putar kalimat di bawah, tirukan persis nada & lafalnya, minimal 3x.',
+   entry:'Fokus ke ritme & intonasi, bukan arti',
+   action:'shadow',stext:'Today I need to review the backlog.'},
+  {id:5,ph:1,wk:1,dy:5,focus:'Vocab Kerja',
+   task:'Tulis 3 istilah PM yang sering kamu pakai dalam Bahasa Indonesia, lalu cari padanan Inggrisnya.',
+   entry:'3 kata cukup',
+   action:'write',prompt:'Contoh: rencana = roadmap. Tuliskan 3 istilahmu:'},
+  {id:6,ph:1,wk:1,dy:6,focus:'Review Ringan',
+   task:'Baca ulang semua yang kamu tulis & rekam minggu ini. Ucapkan pelan-pelan satu per satu.',
+   entry:'Baca dalam hati juga oke',
+   action:'reflect',prompt:'Tulis 1 hal yang terasa paling mudah minggu ini:'},
+  {id:7,ph:1,wk:1,dy:7,focus:'Refleksi',
+   task:'Tulis 1 kalimat tentang hal yang paling mudah minggu ini.',
+   entry:'Boleh dalam Bahasa Indonesia',
+   action:'write',prompt:'Hal termudah minggu ini:'},
+
+  // ── PHASE 1 · WEEK 2 ──────────────────────────────────────────
+  {id:8,ph:1,wk:2,dy:1,focus:'Minimal Pairs',
+   task:'Latih 3 pasang bunyi yang sering ketuker: ship/sheep, think/sink, live/leave. Tap 🔊 dengar, lalu tirukan.',
+   entry:'Dengar bedanya dulu, belum perlu bisa ucapkan',
+   action:'shadow',stext:'ship — sheep — think — sink — live — leave'},
+  {id:9,ph:1,wk:2,dy:2,focus:'Shadowing',
+   task:'Shadow kalimat ini, fokus stress/penekanan kata.',
+   entry:'3x ulang',
+   action:'shadow',stext:"I'm working on the product roadmap this sprint."},
+  {id:10,ph:1,wk:2,dy:3,focus:'Speaking Micro',
+   task:'Rekam: "Yesterday I finished ___" — isi dengan yang kamu selesaikan kemarin.',
+   entry:'1 kalimat',
+   action:'record'},
+  {id:11,ph:1,wk:2,dy:4,focus:'Listening Aktif',
+   task:'Dengar 5 menit podcast/video English. Tulis minimal 3 kata yang kamu tangkap jelas.',
+   entry:'1 kata juga oke',
+   action:'write',prompt:'Kata-kata yang berhasil kamu tangkap:'},
+  {id:12,ph:1,wk:2,dy:5,focus:'Vocab Kerja',
+   task:'Shadow 3 istilah PM baru ini keras-keras 3x: backlog, stakeholder, milestone.',
+   entry:'Ucapkan pelan cukup',
+   action:'shadow',stext:'backlog — stakeholder — milestone'},
+  {id:13,ph:1,wk:2,dy:6,focus:'Self-Talk',
+   task:'Rekam dirimu ngomong 2 kalimat tentang rencana hari besok. Boleh baca dari catatan.',
+   entry:'Boleh baca dari catatan',
+   action:'record'},
+  {id:14,ph:1,wk:2,dy:7,focus:'Refleksi',
+   task:'Kalimat mana minggu ini yang paling nyaman diucapkan? Tulis di sini.',
+   entry:'1 kalimat refleksi',
+   action:'write',prompt:'Kalimat yang paling nyaman:'},
+
+  // ── PHASE 1 · WEEK 3 ──────────────────────────────────────────
+  {id:15,ph:1,wk:3,dy:1,focus:'Listening Terarah',
+   task:'Dengar 7 menit podcast/video learner-English level intermediate. Catat topik utamanya.',
+   entry:'Catat 1 kata kunci',
+   action:'write',prompt:'Topik utama konten yang kamu dengar:'},
+  {id:16,ph:1,wk:3,dy:2,focus:'Shadowing',
+   task:'Shadow kalimat ini dari konteks PM — fokus natural flow.',
+   entry:'2x ulang',
+   action:'shadow',stext:'This feature will improve the user experience significantly.'},
+  {id:17,ph:1,wk:3,dy:3,focus:'Speaking Micro',
+   task:'Rekam: "This week my team is working on ___" — isi dengan proyek timmu.',
+   entry:'1 kalimat',
+   action:'record'},
+  {id:18,ph:1,wk:3,dy:4,focus:'Pronunciation',
+   task:'Latih 3 kata PM yang sering salah ucap. Tap 🔊 dengar, lalu tirukan.',
+   entry:'Dengar contoh, ucapkan 1x',
+   action:'shadow',stext:'features — roadmap — prioritize'},
+  {id:19,ph:1,wk:3,dy:5,focus:'Listening Aktif',
+   task:'Dengar ulang konten dari Misi 15, coba tangkap dan tulis 1 kalimat penuh.',
+   entry:'Boleh tebak-tebak',
+   action:'write',prompt:'Kalimat yang berhasil kamu tangkap:'},
+  {id:20,ph:1,wk:3,dy:6,focus:'Self-Talk',
+   task:'Rekam 2 kalimat: jelaskan 1 fitur produk yang sedang kamu kerjakan, versi sangat sederhana. Boleh campur Indonesia-Inggris.',
+   entry:'Boleh campur Indonesia-Inggris',
+   action:'record'},
+  {id:21,ph:1,wk:3,dy:7,focus:'Refleksi',
+   task:'Dari misi-misi terakhir, berapa yang kamu selesaikan? Tulis jujur, tanpa judge diri.',
+   entry:'Jujur saja',
+   action:'write',prompt:'Progress dan refleksi singkatmu:'},
+
+  // ── PHASE 1 · WEEK 4 ──────────────────────────────────────────
+  {id:22,ph:1,wk:4,dy:1,focus:'Shadowing',
+   task:'Shadow kalimat ini sampai terasa lancar — kalimat PM yang sering dipakai.',
+   entry:'3x ulang',
+   action:'shadow',stext:'Can we align on the priority first?'},
+  {id:23,ph:1,wk:4,dy:2,focus:'Speaking Micro',
+   task:'Rekam 2 kalimat berturutan tentang kerjaan — bukan cuma 1. Boleh jeda di antaranya.',
+   entry:'Boleh jeda di antara kalimat',
+   action:'record'},
+  {id:24,ph:1,wk:4,dy:3,focus:'Listening Aktif',
+   task:'Dengar 7 menit konten English. Tulis ringkasan 1 kalimat dalam Bahasa Indonesia.',
+   entry:'Boleh sangat singkat',
+   action:'write',prompt:'Ringkasan 1 kalimat (boleh Bahasa Indonesia):'},
+  {id:25,ph:1,wk:4,dy:4,focus:'Pronunciation',
+   task:'Rekam dirimu mengucapkan 5 istilah PM: roadmap, prioritize, stakeholder, milestone, backlog. Dengarkan ulang.',
+   entry:'Tidak perlu revisi, cukup dengar',
+   action:'record'},
+  {id:26,ph:1,wk:4,dy:5,focus:'Stimuler (Opsional)',
+   task:'Coba 1 modul singkat business/presentation di Stimuler atau platform pilihanmu. 5 menit saja.',
+   entry:'5 menit saja cukup',
+   action:'external',note:'Buka Stimuler atau platform pilihanmu, selesaikan 1 modul, lalu tandai selesai.'},
+  {id:27,ph:1,wk:4,dy:6,focus:'Self-Talk',
+   task:'Rekam 3 kalimat: hal yang kamu banggakan dari progress sejauh ini. Boleh tulis dulu baru ucapkan.',
+   entry:'Boleh tulis dulu baru ucapkan',
+   action:'record'},
+  {id:28,ph:1,wk:4,dy:7,focus:'Checkpoint Bulan 1 🏆',
+   task:'Dengarkan rekaman pertamamu (Misi 3) vs rekaman terbaru. Tulis 2 hal yang terasa berbeda. Fokus ke *terasa beda*, bukan *sempurna*.',
+   entry:'Fokus ke terasa beda, bukan sempurna',
+   action:'reflect',prompt:'2 hal yang terasa berbeda dari rekaman pertama vs sekarang:'},
+
+  // ── PHASE 2 · WEEK 5 ──────────────────────────────────────────
+  {id:29,ph:2,wk:5,dy:1,focus:'Self-Talk',
+   task:'Ceritakan harimu dalam 3 kalimat. Rekam ke HP atau ngomong ke cermin.',
+   entry:'Boleh dari draft tulisan',
+   action:'record'},
+  {id:30,ph:2,wk:5,dy:2,focus:'Vocab PM',
+   task:'Shadow 3 frasa standup ini keras-keras — frasa yang dipakai setiap hari.',
+   entry:'Baca keras 1x per frasa',
+   action:'shadow',stext:'I worked on... — I am blocked by... — Next I will...'},
+  {id:31,ph:2,wk:5,dy:3,focus:'Speaking Micro',
+   task:'Rekam 1 update standup pura-pura (3 kalimat), pakai frasa dari Misi 30.',
+   entry:'Boleh baca dari catatan',
+   action:'record'},
+  {id:32,ph:2,wk:5,dy:4,focus:'Listening',
+   task:'Dengar 7 menit konten level intermediate. Cukup dengar saja.',
+   entry:'1 kata kunci saja',
+   action:'listen',mins:7},
+  {id:33,ph:2,wk:5,dy:5,focus:'Self-Talk',
+   task:'Rekam 2-3 kalimat: ceritakan 1 masalah kerja sederhana. Boleh campur bahasa.',
+   entry:'Campur bahasa oke',
+   action:'record'},
+  {id:34,ph:2,wk:5,dy:6,focus:'Shadowing',
+   task:'Shadow kalimat ini — sering dipakai di meeting.',
+   entry:'2x ulang',
+   action:'shadow',stext:"I'll follow up on this after the meeting."},
+  {id:35,ph:2,wk:5,dy:7,focus:'Refleksi',
+   task:'Apa yang bikin ngomong ke cermin lebih mudah atau lebih sulit dibanding rekaman?',
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Refleksimu:'},
+
+  // ── PHASE 2 · WEEK 6 ──────────────────────────────────────────
+  {id:36,ph:2,wk:6,dy:1,focus:'Vocab',
+   task:'Tulis 5 frasa untuk menjelaskan fitur. Buat versimu sendiri: "This feature allows users to...", "The goal is to...", dll.',
+   entry:'Baca keras, belum perlu hafal',
+   action:'write',prompt:'5 frasa penjelasan fiturmu:'},
+  {id:37,ph:2,wk:6,dy:2,focus:'Speaking Micro',
+   task:'Rekam 1 penjelasan fitur produkmu, pakai minimal 2 frasa dari Misi 36.',
+   entry:'Boleh baca teks',
+   action:'record'},
+  {id:38,ph:2,wk:6,dy:3,focus:'Shadowing',
+   task:'Shadow kalimat product demo ini — perhatikan cara nada naik-turunnya.',
+   entry:'1 kalimat saja',
+   action:'shadow',stext:'This feature allows users to track their progress in real time.'},
+  {id:39,ph:2,wk:6,dy:4,focus:'Listening',
+   task:'Dengar 7 menit konten. Fokus tangkap kata kerja (build, launch, ship, iterate). Tulis yang kamu dengar.',
+   entry:'1 kata tertangkap = cukup',
+   action:'write',prompt:'Kata kerja yang berhasil kamu tangkap:'},
+  {id:40,ph:2,wk:6,dy:5,focus:'Self-Talk',
+   task:'Rekam 3-4 kalimat: jelaskan 1 fitur produkmu tanpa baca teks. Boleh jeda & ulang.',
+   entry:'Boleh jeda & ulang',
+   action:'record'},
+  {id:41,ph:2,wk:6,dy:6,focus:'Vocab Review',
+   task:'Tulis 10 istilah PM yang sudah kamu pelajari dari ingatanmu. Boleh lihat catatan kalau lupa.',
+   entry:'Boleh pelan-pelan',
+   action:'write',prompt:'10 istilah PM yang kamu ingat:'},
+  {id:42,ph:2,wk:6,dy:7,focus:'Refleksi',
+   task:"Frasa mana yang paling sering 'nyangkut' di lidah? Tulis dan jelaskan kenapa.",
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Frasa yang nyangkut dan alasannya:'},
+
+  // ── PHASE 2 · WEEK 7 ──────────────────────────────────────────
+  {id:43,ph:2,wk:7,dy:1,focus:'AI Conversation',
+   task:"Chat dengan Claude/ChatGPT: mulai dengan \"Let's practice English. I'm a Product Manager.\" Lakukan 3 pertukaran kalimat tentang topik kerja.",
+   entry:'Boleh typo, boleh pelan',
+   action:'external',note:'Buka claude.ai atau ChatGPT, lakukan percakapan 3 pertukaran, lalu tandai selesai.'},
+  {id:44,ph:2,wk:7,dy:2,focus:'Shadowing',
+   task:'Shadow kalimat ini — respons natural saat seseorang mengajukan poin bagus.',
+   entry:'2x ulang',
+   action:'shadow',stext:"That's a great point. Let me think about that for a moment."},
+  {id:45,ph:2,wk:7,dy:3,focus:'AI Conversation',
+   task:'AI conversation lagi, topik: "describe your team". Target 3-5 kalimat dari kamu total.',
+   entry:'Target 3-5 kalimat total',
+   action:'external',note:'Buka claude.ai, percakapan tentang timmu, lalu tandai selesai.'},
+  {id:46,ph:2,wk:7,dy:4,focus:'Listening',
+   task:'Dengar 7 menit podcast. Tangkap dan tulis 1 pertanyaan yang diajukan pembicara.',
+   entry:'Boleh tebak konteks',
+   action:'write',prompt:'Pertanyaan yang kamu tangkap dari podcast:'},
+  {id:47,ph:2,wk:7,dy:5,focus:'AI Conversation',
+   task:"AI conversation: role-play 'menjelaskan bug/masalah ke rekan kerja'. Kamu yang mulai.",
+   entry:'Boleh pause & pikir',
+   action:'external',note:'Role-play jelaskan bug ke rekan di AI. Tandai selesai setelah sesi.'},
+  {id:48,ph:2,wk:7,dy:6,focus:'Pronunciation',
+   task:'Rekam dirimu mengucapkan 3 kata PM yang sering salah ucap. Dengarkan ulang.',
+   entry:'Cukup dengar bedanya',
+   action:'record'},
+  {id:49,ph:2,wk:7,dy:7,focus:'Refleksi',
+   task:"Bagaimana rasanya 'didengar' AI dibanding merekam diri sendiri? Ada perbedaan rasa gugup?",
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Refleksi AI conversation vs rekam sendiri:'},
+
+  // ── PHASE 2 · WEEK 8 ──────────────────────────────────────────
+  {id:50,ph:2,wk:8,dy:1,focus:'Self-Talk',
+   task:'Rekam 4-5 kalimat: ceritakan minggu kerjamu. Tanpa teks — langsung ngomong.',
+   entry:'Boleh campur bahasa sedikit',
+   action:'record'},
+  {id:51,ph:2,wk:8,dy:2,focus:'AI Conversation',
+   task:'AI conversation bebas topik, minimal 5 pertukaran kalimat. Fokus selesai, bukan sempurna.',
+   entry:'Fokus selesai, bukan sempurna',
+   action:'external',note:'5 pertukaran bebas dengan AI. Tandai selesai.'},
+  {id:52,ph:2,wk:8,dy:3,focus:'Vocab Review',
+   task:'Tulis 10 istilah PM dari ingatan saja — tidak boleh lihat catatan dulu.',
+   entry:'5 dari 10 sudah bagus',
+   action:'write',prompt:'10 istilah PM dari ingatanmu:'},
+  {id:53,ph:2,wk:8,dy:4,focus:'Stimuler',
+   task:'Buka 1 modul business/presentation Stimuler atau platform pilihanmu. 10 menit.',
+   entry:'10 menit cukup',
+   action:'external',note:'Selesaikan 1 modul, lalu tandai selesai.'},
+  {id:54,ph:2,wk:8,dy:5,focus:'Shadowing',
+   task:'Shadow kalimat ini — kunci untuk presentasi.',
+   entry:'3x ulang',
+   action:'shadow',stext:'The key message here is that we need to prioritize user retention.'},
+  {id:55,ph:2,wk:8,dy:6,focus:'Speaking Micro',
+   task:"Rekam 'elevator pitch' 3 kalimat tentang produkmu. Boleh baca draft.",
+   entry:'Boleh baca draft',
+   action:'record'},
+  {id:56,ph:2,wk:8,dy:7,focus:'Checkpoint Bulan 2 🏆',
+   task:'Dengarkan rekaman Misi 29 vs rekaman terbaru. Tulis 2 progress nyata yang kamu rasakan.',
+   entry:'Fokus ke kemajuan proses, bukan kefasihan',
+   action:'reflect',prompt:'2 progress nyata dari bulan 1 ke bulan 2:'},
+
+  // ── PHASE 3 · WEEK 9 ──────────────────────────────────────────
+  {id:57,ph:3,wk:9,dy:1,focus:'Vocab Roadmap',
+   task:'Tulis 5 istilah roadmap dengan artimu sendiri: prioritize, trade-off, timeline, dependency, scope.',
+   entry:'Baca keras 1x tiap kata',
+   action:'write',prompt:'5 istilah roadmap + artimu sendiri:'},
+  {id:58,ph:3,wk:9,dy:2,focus:'Speaking Micro',
+   task:"Rekam 1 kalimat yang menggunakan 'trade-off' DAN 'prioritize' sekaligus.",
+   entry:'Boleh baca teks',
+   action:'record'},
+  {id:59,ph:3,wk:9,dy:3,focus:'Listening',
+   task:'Dengar 7 menit konten PM/tech. Catat 1 istilah baru yang belum pernah kamu dengar.',
+   entry:'1 istilah cukup',
+   action:'write',prompt:'Istilah baru yang kamu temukan:'},
+  {id:60,ph:3,wk:9,dy:4,focus:'Shadowing',
+   task:"Shadow kalimat roadmap ini — perhatikan tekanan pada 'trade-offs'.",
+   entry:'2x ulang',
+   action:'shadow',stext:'We need to evaluate the trade-offs before finalizing the roadmap.'},
+  {id:61,ph:3,wk:9,dy:5,focus:'AI Conversation',
+   task:'AI conversation: jelaskan ke AI kenapa 1 fitur di produkmu diprioritaskan di atas yang lain.',
+   entry:'3-4 kalimat',
+   action:'external',note:'Jelaskan prioritisasi fiturmu ke AI. Tandai selesai.'},
+  {id:62,ph:3,wk:9,dy:6,focus:'Vocab Review',
+   task:'Tulis 2 kalimat yang masing-masing menggunakan 2 istilah roadmap sekaligus.',
+   entry:'Boleh pelan',
+   action:'write',prompt:'2 kalimat dengan masing-masing 2 istilah roadmap:'},
+  {id:63,ph:3,wk:9,dy:7,focus:'Refleksi',
+   task:'Istilah roadmap mana yang paling relevan dengan kerjaanmu sekarang? Kenapa?',
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Istilah paling relevan dan alasannya:'},
+
+  // ── PHASE 3 · WEEK 10 ─────────────────────────────────────────
+  {id:64,ph:3,wk:10,dy:1,focus:'Struktur Update',
+   task:'Pelajari format ini dan buat 1 contoh untuk pekerjaanmu: Situation → Progress → Next Step → Blocker.',
+   entry:'Baca & pahami dulu',
+   action:'write',prompt:'Format status update + 1 contoh untukmu:\nSituation:\nProgress:\nNext Step:\nBlocker:'},
+  {id:65,ph:3,wk:10,dy:2,focus:'Speaking Micro',
+   task:'Rekam status update 4 kalimat pakai struktur: Situation → Progress → Next Step → Blocker.',
+   entry:'Boleh baca draft',
+   action:'record'},
+  {id:66,ph:3,wk:10,dy:3,focus:'Listening',
+   task:"Cari di YouTube 'project status update meeting English'. Dengar 7 menit, catat 1 poin penting.",
+   entry:'1 poin tertangkap cukup',
+   action:'write',prompt:'1 poin dari contoh status update yang kamu dengar:'},
+  {id:67,ph:3,wk:10,dy:4,focus:'AI Conversation',
+   task:'AI conversation: sampaikan status update kerjaan ke AI, minta AI tanya balik.',
+   entry:'Jawab sebisanya',
+   action:'external',note:'Sampaikan status update ke AI, jawab pertanyaan baliknya. Tandai selesai.'},
+  {id:68,ph:3,wk:10,dy:5,focus:'Shadowing',
+   task:'Shadow kalimat pembuka status update ini.',
+   entry:'2x ulang',
+   action:'shadow',stext:"The situation is that we're slightly behind schedule on the core feature."},
+  {id:69,ph:3,wk:10,dy:6,focus:'Speaking Micro',
+   task:'Rekam ulang status update dari Misi 65 — kali ini tanpa baca teks. Boleh lihat poin-poin saja.',
+   entry:'Boleh lihat poin-poin saja',
+   action:'record'},
+  {id:70,ph:3,wk:10,dy:7,focus:'Refleksi',
+   task:'Bagian mana dari status update yang paling sulit: Situation, Progress, Next Step, atau Blocker?',
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Bagian tersulit dan alasannya:'},
+
+  // ── PHASE 3 · WEEK 11 ─────────────────────────────────────────
+  {id:71,ph:3,wk:11,dy:1,focus:'Vocab Stakeholder',
+   task:'Tulis dan baca keras 5 frasa stakeholder sync. Buat 1 contoh kalimat dengan frasa pertama.',
+   entry:'Baca keras',
+   action:'write',prompt:'5 frasa + 1 contoh kalimatmu:\n• To align on...\n• The concern is...\n• Let\'s circle back on...\n• I want to make sure we\'re on the same page about...\n• Can we revisit this next week?'},
+  {id:72,ph:3,wk:11,dy:2,focus:'AI Roleplay',
+   task:'AI roleplay: kamu jadi PM, minta AI jadi stakeholder yang tanya progress produkmu.',
+   entry:'Jawab 2-3 kalimat per giliran',
+   action:'external',note:'Roleplay: kamu PM, AI stakeholder. Tandai selesai setelah sesi.'},
+  {id:73,ph:3,wk:11,dy:3,focus:'Listening',
+   task:"Dengar 7 menit contoh stakeholder meeting (YouTube). Catat 1 pertanyaan yang sering muncul.",
+   entry:'1 pertanyaan cukup',
+   action:'write',prompt:'Pertanyaan stakeholder yang sering muncul:'},
+  {id:74,ph:3,wk:11,dy:4,focus:'Speaking Micro',
+   task:'Rekam jawabanmu untuk pertanyaan: "What\'s the timeline for this feature?"',
+   entry:'Boleh baca draft',
+   action:'record'},
+  {id:75,ph:3,wk:11,dy:5,focus:'AI Roleplay',
+   task:'AI roleplay lanjutan: stakeholder meragukan timeline-mu. Kamu respons dan defend dengan sopan.',
+   entry:'Boleh pause & pikir',
+   action:'external',note:'Roleplay stakeholder meragukan timeline. Tandai selesai.'},
+  {id:76,ph:3,wk:11,dy:6,focus:'Shadowing',
+   task:'Shadow kalimat ini — cara merespons keraguan dengan sopan.',
+   entry:'2x ulang',
+   action:'shadow',stext:"Let me clarify the timeline and circle back with the stakeholders."},
+  {id:77,ph:3,wk:11,dy:7,focus:'Refleksi',
+   task:'Momen roleplay mana yang bikin kamu paling gugup? Kenapa?',
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Momen paling gugup dan alasannya:'},
+
+  // ── PHASE 3 · WEEK 12 ─────────────────────────────────────────
+  {id:78,ph:3,wk:12,dy:1,focus:'Outline Presentasi',
+   task:'Susun outline presentasi roadmap singkat: 1. Goal, 2. Three Key Features, 3. Timeline.',
+   entry:'Boleh dalam Bahasa Indonesia dulu',
+   action:'write',prompt:'Outline roadmap presentasimu:\n1. Goal:\n2. Three Key Features:\n   a.\n   b.\n   c.\n3. Timeline:'},
+  {id:79,ph:3,wk:12,dy:2,focus:'Speaking Micro',
+   task:"Rekam bagian 'Goal' dari outline Misi 78 — 2-3 kalimat. Boleh baca teks.",
+   entry:'Boleh baca teks',
+   action:'record'},
+  {id:80,ph:3,wk:12,dy:3,focus:'Speaking Micro',
+   task:"Rekam bagian 'Three Key Features' dari outline Misi 78. Boleh baca teks.",
+   entry:'Boleh baca teks',
+   action:'record'},
+  {id:81,ph:3,wk:12,dy:4,focus:'Stimuler',
+   task:'1 modul presentation dari Stimuler atau platform pilihanmu. Fokus ke pacing & intonasi.',
+   entry:'10 menit',
+   action:'external',note:'Selesaikan 1 modul presentation, fokus cara bicaranya. Tandai selesai.'},
+  {id:82,ph:3,wk:12,dy:5,focus:'AI Conversation',
+   task:'Presentasikan seluruh outline roadmap ke AI. Boleh baca catatan. Minta AI kasih 1 pertanyaan.',
+   entry:'Selesai > sempurna',
+   action:'external',note:'Presentasi roadmap ke AI, jawab pertanyaannya. Tandai selesai.'},
+  {id:83,ph:3,wk:12,dy:6,focus:'Shadowing',
+   task:'Shadow kalimat pembuka presentasi ini sampai terasa natural.',
+   entry:'3x ulang',
+   action:'shadow',stext:'The goal of this roadmap is to improve user retention by twenty percent.'},
+  {id:84,ph:3,wk:12,dy:7,focus:'Checkpoint Bulan 3 🏆',
+   task:'Rekam presentasi roadmap lengkap (3-4 menit, boleh lihat catatan). Bandingkan dengan rekaman Misi 55.',
+   entry:'Fokus: makin sedikit baca teks',
+   action:'record'},
+
+  // ── PHASE 4 · WEEK 13 ─────────────────────────────────────────
+  {id:85,ph:4,wk:13,dy:1,focus:'Vocab Objection',
+   task:'Tulis dan baca keras 5 frasa untuk merespons keberatan. Buat 1 contoh pakai frasa pertama.',
+   entry:'Baca keras',
+   action:'write',prompt:"5 frasa respons keberatan:\n• That's a fair point, and...\n• Let me clarify...\n• We considered that, but...\n• I understand the concern, however...\n• That's something we can revisit if..."},
+  {id:86,ph:4,wk:13,dy:2,focus:'AI Roleplay',
+   task:'AI roleplay: AI kasih 1 objection ke roadmap-mu, kamu respons pakai frasa dari Misi 85.',
+   entry:'1 respons cukup',
+   action:'external',note:'Roleplay: AI beri objection ke roadmapmu, kamu respons. Tandai selesai.'},
+  {id:87,ph:4,wk:13,dy:3,focus:'Listening',
+   task:'Dengar 7 menit Q&A session di YouTube. Catat 1 pola respons yang menarik.',
+   entry:'1 pola cukup',
+   action:'write',prompt:'Pola respons yang kamu catat dari Q&A session:'},
+  {id:88,ph:4,wk:13,dy:4,focus:'Speaking Micro',
+   task:'Rekam jawabanmu untuk objection: "Why not do this feature first instead?"',
+   entry:'Boleh baca draft',
+   action:'record'},
+  {id:89,ph:4,wk:13,dy:5,focus:'AI Roleplay',
+   task:'AI roleplay 3 objections berturutan. Boleh pause di antaranya.',
+   entry:'Jawab sebisanya, tak apa pendek',
+   action:'external',note:'3 objections dari AI, kamu respons semua. Tandai selesai.'},
+  {id:90,ph:4,wk:13,dy:6,focus:'Shadowing',
+   task:'Shadow frasa ini — cara natural menangkis objection dengan sopan.',
+   entry:'2x ulang',
+   action:'shadow',stext:"That's a fair point, and here's how we're addressing it."},
+  {id:91,ph:4,wk:13,dy:7,focus:'Refleksi',
+   task:'Objection mana yang paling gampang dijawab? Paling susah? Kenapa?',
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Objection termudah vs tersulit dan alasannya:'},
+
+  // ── PHASE 4 · WEEK 14 ─────────────────────────────────────────
+  {id:92,ph:4,wk:14,dy:1,focus:'Persiapan Mock Meeting',
+   task:'Tulis agenda mock meeting dalam Bahasa Inggris — 3 poin yang mau dibahas.',
+   entry:'Boleh Bahasa Indonesia dulu',
+   action:'write',prompt:'Agenda mock meeting (3 poin):\n1.\n2.\n3.'},
+  {id:93,ph:4,wk:14,dy:2,focus:'Mock Meeting',
+   task:'AI roleplay full mock meeting (5-7 menit): kamu PM lead meeting, AI jadi stakeholder. Pakai agenda Misi 92.',
+   entry:'Selesai satu sesi > sempurna',
+   action:'external',note:'Full mock meeting dengan AI selama 5-7 menit. Tandai selesai.'},
+  {id:94,ph:4,wk:14,dy:3,focus:'Listening',
+   task:'Ingat kembali mock meeting kemarin. Tulis 1 momen yang berjalan lancar.',
+   entry:'Fokus hal positif dulu',
+   action:'write',prompt:'1 momen yang berjalan lancar dari mock meeting:'},
+  {id:95,ph:4,wk:14,dy:4,focus:'Speaking Micro',
+   task:'Perbaiki 1 jawaban dari mock meeting yang terasa canggung. Tulis revisinya, lalu rekam.',
+   entry:'Boleh baca revisi',
+   action:'record'},
+  {id:96,ph:4,wk:14,dy:5,focus:'Mock Meeting Round 2',
+   task:'Mock meeting round 2 dengan AI, topik berbeda dari Misi 93. Boleh lebih pendek.',
+   entry:'Boleh lebih pendek dari round 1',
+   action:'external',note:'Mock meeting round 2 dengan topik berbeda. Tandai selesai.'},
+  {id:97,ph:4,wk:14,dy:6,focus:'Stimuler',
+   task:'1 modul business meeting atau negotiation dari Stimuler / platform pilihanmu.',
+   entry:'10 menit',
+   action:'external',note:'Selesaikan 1 modul meeting/negotiation. Tandai selesai.'},
+  {id:98,ph:4,wk:14,dy:7,focus:'Refleksi',
+   task:'Apa bedanya rasanya mock meeting minggu ini vs roleplay stakeholder di Minggu 11?',
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Perbedaan yang kamu rasakan:'},
+
+  // ── PHASE 4 · WEEK 15 ─────────────────────────────────────────
+  {id:99,ph:4,wk:15,dy:1,focus:'Persiapan Tutor',
+   task:'Siapkan 3 topik kerja yang mau kamu bahas saat sesi tutor. Tulis poin-poin kata kuncinya.',
+   entry:'Cukup poin-poin',
+   action:'write',prompt:'3 topik + kata kunci untuk sesi tutor:\n1.\n2.\n3.'},
+  {id:100,ph:4,wk:15,dy:2,focus:'AI Warm-Up',
+   task:'AI conversation 5 menit: bahas salah satu topik dari Misi 99. Ini pemanasan sebelum sesi tutor.',
+   entry:'Anggap ini latihan sebelum tampil',
+   action:'external',note:'5 menit conversation dengan AI tentang topik tutor. Tandai selesai.'},
+  {id:101,ph:4,wk:15,dy:3,focus:'Sesi Tutor Online 🎯',
+   task:'Booking dan jalani 1 sesi singkat tutor online (Stimuler/Cambly/platform lain). Bahas 1 topik dari Misi 99.',
+   entry:'Sesi 15-20 menit, boleh minta tutor bicara pelan',
+   action:'external',note:'Selesaikan sesi tutor online. Ini misi besar! Tandai selesai setelah sesi.'},
+  {id:102,ph:4,wk:15,dy:4,focus:'Refleksi Post-Sesi',
+   task:'Catat 1 hal yang berjalan baik saat sesi tutor. Fokus ke hal positif dulu.',
+   entry:'Fokus 1 hal positif',
+   action:'write',prompt:'1 hal yang berjalan baik saat sesi tutor:'},
+  {id:103,ph:4,wk:15,dy:5,focus:'Speaking Micro',
+   task:'Perbaiki 1 kalimat yang sulit saat sesi tutor. Tulis revisinya, lalu rekam.',
+   entry:'Boleh baca revisi',
+   action:'record'},
+  {id:104,ph:4,wk:15,dy:6,focus:'Shadowing',
+   task:'Shadow kalimat ini — cara natural mengapresiasi feedback.',
+   entry:'2x ulang',
+   action:'shadow',stext:'I appreciate your feedback on that. That is very helpful.'},
+  {id:105,ph:4,wk:15,dy:7,focus:'Refleksi',
+   task:'Bandingkan rasa gugup kamu sebelum vs sesudah sesi tutor. Ada perubahan?',
+   entry:'1-2 kalimat',
+   action:'write',prompt:'Perubahan rasa gugup sebelum vs sesudah sesi tutor:'},
+
+  // ── PHASE 4 · WEEK 16 ─────────────────────────────────────────
+  {id:106,ph:4,wk:16,dy:1,focus:'Revisi Outline',
+   task:'Susun ulang outline roadmap dari Misi 78 — versi lebih matang. Tambahkan poin baru dari 3 bulan belajar.',
+   entry:'Boleh reuse outline lama',
+   action:'write',prompt:'Outline roadmap versi final (lebih matang dari Misi 78):'},
+  {id:107,ph:4,wk:16,dy:2,focus:'Speaking Micro',
+   task:'Rekam draft presentasi roadmap lengkap — boleh lihat catatan. Selesaikan 1 take penuh.',
+   entry:'Selesai satu take penuh',
+   action:'record'},
+  {id:108,ph:4,wk:16,dy:3,focus:'AI Conversation',
+   task:'Presentasikan roadmap ke AI + jawab 2 pertanyaan yang AI kasih. Boleh pause antar bagian.',
+   entry:'Boleh pause antar bagian',
+   action:'external',note:'Presentasi ke AI + jawab 2 pertanyaan. Tandai selesai.'},
+  {id:109,ph:4,wk:16,dy:4,focus:'Refinement',
+   task:'Tulis 1-2 kalimat yang paling canggung dari rekaman Misi 107, lalu tulis versi perbaikannya.',
+   entry:'Fokus perbaikan kecil saja',
+   action:'write',prompt:'Kalimat canggung + versi perbaikannya:'},
+  {id:110,ph:4,wk:16,dy:5,focus:'Sesi Final (Opsional)',
+   task:'Kalau siap, presentasikan ke tutor atau teman yang fasih. Boleh tetap ke AI kalau belum siap — tidak ada yang salah.',
+   entry:'Boleh tetap ke AI kalau belum siap',
+   action:'external',note:'Presentasi ke tutor/teman/AI. Tandai selesai.'},
+  {id:111,ph:4,wk:16,dy:6,focus:'Presentasi Final',
+   task:'Rekam presentasi final — target: seminimal mungkin baca teks. Ini rekaman yang dibandingkan dengan rekaman pertamamu.',
+   entry:'Progress, bukan perfect',
+   action:'record'},
+  {id:112,ph:4,wk:16,dy:7,focus:'Checkpoint Bulan 4 & Wisuda 🎓',
+   task:'Dengarkan rekaman Misi 3 (awal) vs rekaman Misi 111 (final). Tulis 3 progress nyata + rencana bulan selanjutnya. Rayakan progresmu!',
+   entry:'Rayakan progres, apapun besarnya',
+   action:'reflect',prompt:'3 progress nyata + rencana bulan selanjutnya:'},
 ];
 
-const BONUS_TASKS = [
-  {
-    id: 'vocab3',
-    title: 'Hafalin 3 Vocab Baru',
-    desc: 'Buka tab Vocab, pilih 3 kata yang belum familiar, baca contoh kalimatnya.',
-    example: 'escalate → triage → root cause',
-    tip: 'Tip: Pilih kata yang paling sering muncul di kerjaan lo minggu ini.'
-  },
-  {
-    id: 'shadow',
-    title: 'Shadowing 2 menit',
-    desc: 'Dengar satu segmen podcast/video, pause, tirukan cara ngomongnya. Fokus ke ritme & intonasi, bukan arti.',
-    example: 'Pilih 1-2 kalimat, ulangi sampai terasa natural.',
-    tip: 'Tip: YouTube dengan subtitle bahasa Inggris sangat membantu.'
-  },
-  {
-    id: 'journal',
-    title: 'One Sentence Journal',
-    desc: 'Tulis 1 kalimat bahasa Inggris tentang hari lo di notes HP atau WA ke diri sendiri.',
-    example: '"Today I had a tough standup but the team aligned well."',
-    tip: 'Tip: Grammar ga perlu sempurna. Yang penting ditulis.'
-  },
-];
-
+// ================================================================
+// PHRASES DATA
+// ================================================================
 const PHRASES_DATA = [
-  {
-    icon: "🗓️", title: "Rencana Hari Ini",
-    items: [
-      { en: "Today I will ___.", id: "Hari ini aku akan ___.", blank: "review the backlog / join a meeting / write the PRD" },
-      { en: "Today I need to ___.", id: "Hari ini aku perlu ___.", blank: "finish the feature brief / talk to the dev team" },
-      { en: "This morning I have ___ meeting.", id: "Pagi ini aku ada rapat ___.", blank: "a stakeholder / a sprint / a 1-on-1" },
-      { en: "My priority today is ___.", id: "Prioritas aku hari ini adalah ___.", blank: "the roadmap / user research / the sprint review" },
-    ]
-  },
-  {
-    icon: "🎙️", title: "Lead Meeting",
-    items: [
-      { en: "Let's get started.", id: "Ayo kita mulai.", blank: "" },
-      { en: "Here's today's agenda.", id: "Ini agenda kita hari ini.", blank: "" },
-      { en: "Let's stay on track.", id: "Kita tetap fokus ya.", blank: "" },
-      { en: "Let's wrap up — any final thoughts?", id: "Kita akhiri — ada yang mau ditambahkan?", blank: "" },
-      { en: "The action item for ___ is ___.", id: "Tugas untuk ___ adalah ___.", blank: "you / the team / next sprint" },
-      { en: "Let's park that and move on.", id: "Kita tunda dulu dan lanjut.", blank: "" },
-    ]
-  },
-  {
-    icon: "🤝", title: "Ikut Meeting",
-    items: [
-      { en: "Can we align on ___?", id: "Bisakah kita sepakat soal ___?", blank: "the priority / the timeline / this feature" },
-      { en: "I'll follow up on this.", id: "Aku akan tindak lanjuti ini.", blank: "" },
-      { en: "Can you clarify what you mean by ___?", id: "Bisa jelaskan maksud ___?", blank: "this requirement / the scope / done" },
-      { en: "Let me take a note of that.", id: "Biar aku catat itu.", blank: "" },
-      { en: "I agree with that point.", id: "Aku setuju dengan poin itu.", blank: "" },
-    ]
-  },
-  {
-    icon: "🐛", title: "Bahas Issue",
-    items: [
-      { en: "What's the root cause of this?", id: "Apa akar masalahnya?", blank: "" },
-      { en: "What's the impact?", id: "Apa dampaknya?", blank: "" },
-      { en: "We need to triage this first.", id: "Kita perlu sortir ini dulu.", blank: "" },
-      { en: "This needs to be escalated.", id: "Ini perlu dieskalasi.", blank: "" },
-      { en: "Is there a workaround for now?", id: "Ada solusi sementaranya?", blank: "" },
-    ]
-  },
-  {
-    icon: "📊", title: "Analisis Data",
-    items: [
-      { en: "I see a ___ trend in ___.", id: "Aku melihat tren ___ di ___.", blank: "downward / upward" },
-      { en: "There's a spike in ___ this week.", id: "Ada lonjakan di ___ minggu ini.", blank: "errors / signups / churn" },
-      { en: "The key insight here is ___.", id: "Temuan utamanya adalah ___.", blank: "" },
-      { en: "How does this compare to our baseline?", id: "Dibanding baseline kita, gimana ini?", blank: "" },
-      { en: "The conversion rate dropped by ___.", id: "Conversion rate turun ___.", blank: "5% / 10 points" },
-    ]
-  },
-  {
-    icon: "🖼️", title: "Presentasi & Slide",
-    items: [
-      { en: "Let me walk you through this deck.", id: "Biar aku jelaskan slide ini.", blank: "" },
-      { en: "The key message here is ___.", id: "Pesan utama di sini adalah ___.", blank: "" },
-      { en: "Here's a breakdown of ___.", id: "Ini rincian dari ___.", blank: "the numbers / the roadmap / Q3 results" },
-      { en: "The main takeaway is ___.", id: "Kesimpulan utamanya adalah ___.", blank: "" },
-      { en: "Let me highlight ___.", id: "Perlu aku soroti ___.", blank: "this number / this trend / this risk" },
-    ]
-  },
-  {
-    icon: "⏸️", title: "Kalau Stuck / Minta Waktu",
-    items: [
-      { en: "Let me think about that for a second.", id: "Beri aku sebentar untuk berpikir.", blank: "" },
-      { en: "That's a good point. Let me get back to you.", id: "Poin bagus. Nanti aku follow up.", blank: "" },
-      { en: "Could you say that again, please?", id: "Bisa ulangi sekali lagi?", blank: "" },
-      { en: "Sorry, I lost you there.", id: "Maaf, aku ketinggalan.", blank: "" },
-      { en: "Can you rephrase that?", id: "Bisa diucapkan dengan cara lain?", blank: "" },
-    ]
-  },
+  {icon:"🗓️",title:"Rencana Hari Ini",items:[
+    {en:"Today I will ___.",id:"Hari ini aku akan ___.",blank:"review the backlog / join a meeting / write the PRD"},
+    {en:"Today I need to ___.",id:"Hari ini aku perlu ___.",blank:"finish the feature brief / talk to the dev team"},
+    {en:"This morning I have ___ meeting.",id:"Pagi ini aku ada rapat ___.",blank:"a stakeholder / a sprint / a 1-on-1"},
+    {en:"My priority today is ___.",id:"Prioritas aku hari ini adalah ___.",blank:"the roadmap / user research / the sprint review"},
+  ]},
+  {icon:"🎙️",title:"Lead Meeting",items:[
+    {en:"Let's get started.",id:"Ayo kita mulai.",blank:""},
+    {en:"Here's today's agenda.",id:"Ini agenda kita hari ini.",blank:""},
+    {en:"Let's stay on track.",id:"Kita tetap fokus ya.",blank:""},
+    {en:"Let's wrap up — any final thoughts?",id:"Kita akhiri — ada yang mau ditambahkan?",blank:""},
+    {en:"The action item for ___ is ___.",id:"Tugas untuk ___ adalah ___.",blank:"you / the team / next sprint"},
+    {en:"Let's park that and move on.",id:"Kita tunda dulu dan lanjut.",blank:""},
+  ]},
+  {icon:"🤝",title:"Ikut Meeting",items:[
+    {en:"Can we align on ___?",id:"Bisakah kita sepakat soal ___?",blank:"the priority / the timeline / this feature"},
+    {en:"I'll follow up on this.",id:"Aku akan tindak lanjuti ini.",blank:""},
+    {en:"Can you clarify what you mean by ___?",id:"Bisa jelaskan maksud ___?",blank:"this requirement / the scope / done"},
+    {en:"Let me take a note of that.",id:"Biar aku catat itu.",blank:""},
+    {en:"I agree with that point.",id:"Aku setuju dengan poin itu.",blank:""},
+  ]},
+  {icon:"🐛",title:"Bahas Issue",items:[
+    {en:"What's the root cause of this?",id:"Apa akar masalahnya?",blank:""},
+    {en:"What's the impact?",id:"Apa dampaknya?",blank:""},
+    {en:"We need to triage this first.",id:"Kita perlu sortir ini dulu.",blank:""},
+    {en:"This needs to be escalated.",id:"Ini perlu dieskalasi.",blank:""},
+    {en:"Is there a workaround for now?",id:"Ada solusi sementaranya?",blank:""},
+  ]},
+  {icon:"📊",title:"Analisis Data",items:[
+    {en:"I see a ___ trend in ___.",id:"Aku melihat tren ___ di ___.",blank:"downward / upward"},
+    {en:"There's a spike in ___ this week.",id:"Ada lonjakan di ___ minggu ini.",blank:"errors / signups / churn"},
+    {en:"The key insight here is ___.",id:"Temuan utamanya adalah ___.",blank:""},
+    {en:"How does this compare to our baseline?",id:"Dibanding baseline kita, gimana ini?",blank:""},
+    {en:"The conversion rate dropped by ___.",id:"Conversion rate turun ___.",blank:"5% / 10 points"},
+  ]},
+  {icon:"🖼️",title:"Presentasi & Slide",items:[
+    {en:"Let me walk you through this deck.",id:"Biar aku jelaskan slide ini.",blank:""},
+    {en:"The key message here is ___.",id:"Pesan utama di sini adalah ___.",blank:""},
+    {en:"Here's a breakdown of ___.",id:"Ini rincian dari ___.",blank:"the numbers / the roadmap / Q3 results"},
+    {en:"The main takeaway is ___.",id:"Kesimpulan utamanya adalah ___.",blank:""},
+    {en:"Let me highlight ___.",id:"Perlu aku soroti ___.",blank:"this number / this trend / this risk"},
+  ]},
+  {icon:"⏸️",title:"Kalau Stuck / Minta Waktu",items:[
+    {en:"Let me think about that for a second.",id:"Beri aku sebentar untuk berpikir.",blank:""},
+    {en:"That's a good point. Let me get back to you.",id:"Poin bagus. Nanti aku follow up.",blank:""},
+    {en:"Could you say that again, please?",id:"Bisa ulangi sekali lagi?",blank:""},
+    {en:"Sorry, I lost you there.",id:"Maaf, aku ketinggalan.",blank:""},
+    {en:"Can you rephrase that?",id:"Bisa diucapkan dengan cara lain?",blank:""},
+  ]},
 ];
 
+// ================================================================
+// VOCAB DATA
+// ================================================================
 const VOCAB_DATA = [
-  {
-    icon: "🎙️", title: "Lead & Ikut Meeting",
-    words: [
-      { en: "facilitate", id: "memimpin/memfasilitasi", ex: "I'll facilitate today's meeting." },
-      { en: "align", id: "sepakat / menyamakan pandangan", ex: "Let's align on the priority first." },
-      { en: "agenda", id: "agenda rapat", ex: "Here's the agenda for today." },
-      { en: "action item", id: "tugas yang harus dikerjakan", ex: "The action item is to review the spec." },
-      { en: "wrap up", id: "menutup / mengakhiri", ex: "Let's wrap up the meeting." },
-      { en: "recap", id: "merangkum", ex: "Quick recap of what we decided." },
-      { en: "defer", id: "tunda untuk nanti", ex: "Let's defer this to next sprint." },
-      { en: "blockers", id: "hambatan", ex: "Any blockers I should know about?" },
-      { en: "take offline", id: "diskusi di luar rapat", ex: "Let's take this offline after the call." },
-    ]
-  },
-  {
-    icon: "🐛", title: "Bahas Issue",
-    words: [
-      { en: "root cause", id: "akar masalah", ex: "We need to find the root cause." },
-      { en: "impact", id: "dampak", ex: "What's the impact of this issue?" },
-      { en: "severity", id: "tingkat keparahan", ex: "This is a high severity bug." },
-      { en: "reproduce", id: "memunculkan ulang masalah", ex: "Can you reproduce the issue?" },
-      { en: "workaround", id: "solusi sementara", ex: "There's a workaround for now." },
-      { en: "escalate", id: "naikkan ke atasan", ex: "We need to escalate this to leadership." },
-      { en: "triage", id: "sortir berdasarkan prioritas", ex: "Let's triage the issues first." },
-      { en: "resolve", id: "menyelesaikan masalah", ex: "This issue has been resolved." },
-      { en: "regression", id: "masalah yang muncul lagi", ex: "This looks like a regression." },
-    ]
-  },
-  {
-    icon: "📊", title: "Analisis Data",
-    words: [
-      { en: "trend", id: "tren / pola", ex: "I see a downward trend in retention." },
-      { en: "drop", id: "penurunan", ex: "There's a significant drop in DAU." },
-      { en: "spike", id: "lonjakan tiba-tiba", ex: "We had a spike in errors yesterday." },
-      { en: "conversion rate", id: "tingkat konversi", ex: "Conversion rate improved by 5%." },
-      { en: "baseline", id: "angka dasar pembanding", ex: "What's our baseline for this metric?" },
-      { en: "insight", id: "temuan penting dari data", ex: "The key insight is that users drop off here." },
-      { en: "cohort", id: "kelompok user berdasar waktu", ex: "The April cohort performs better." },
-      { en: "funnel", id: "alur konversi user", ex: "There's a big drop in the funnel here." },
-      { en: "benchmark", id: "standar perbandingan", ex: "How do we compare to the benchmark?" },
-    ]
-  },
-  {
-    icon: "🖼️", title: "Presentasi & Slide",
-    words: [
-      { en: "deck", id: "kumpulan slide presentasi", ex: "I'm preparing the deck for Friday." },
-      { en: "executive summary", id: "ringkasan untuk pimpinan", ex: "Put the key points in the exec summary." },
-      { en: "highlight", id: "poin utama yang ditonjolkan", ex: "The highlight of this quarter is growth." },
-      { en: "breakdown", id: "rincian / penjelasan per bagian", ex: "Here's a breakdown of the numbers." },
-      { en: "narrative", id: "alur cerita presentasi", ex: "We need a clear narrative for this deck." },
-      { en: "takeaway", id: "poin yang dibawa pulang audiens", ex: "The main takeaway is we need to pivot." },
-      { en: "walk through", id: "menjelaskan step by step", ex: "Let me walk you through the roadmap." },
-      { en: "key message", id: "pesan utama", ex: "The key message of this slide is growth." },
-    ]
-  },
+  {icon:"🎙️",title:"Lead & Ikut Meeting",words:[
+    {en:"facilitate",ph:"feh-SIL-ih-tayt",id:"memimpin/memfasilitasi",ex:"I'll facilitate today's meeting."},
+    {en:"align",ph:"eh-LAIN",id:"sepakat / menyamakan pandangan",ex:"Let's align on the priority first."},
+    {en:"agenda",ph:"eh-JEN-deh",id:"agenda rapat",ex:"Here's the agenda for today."},
+    {en:"action item",ph:"AK-shen AY-tem",id:"tugas yang harus dikerjakan",ex:"The action item is to review the spec."},
+    {en:"wrap up",ph:"RAP ap",id:"menutup / mengakhiri",ex:"Let's wrap up the meeting."},
+    {en:"recap",ph:"REE-kap",id:"merangkum",ex:"Quick recap of what we decided."},
+    {en:"defer",ph:"deh-FER",id:"tunda untuk nanti",ex:"Let's defer this to next sprint."},
+    {en:"blockers",ph:"BLOK-erz",id:"hambatan",ex:"Any blockers I should know about?"},
+    {en:"take offline",ph:"tayk OFF-lain",id:"diskusi di luar rapat",ex:"Let's take this offline after the call."},
+  ]},
+  {icon:"🐛",title:"Bahas Issue",words:[
+    {en:"root cause",ph:"ROOT kawz",id:"akar masalah",ex:"We need to find the root cause."},
+    {en:"impact",ph:"IM-pakt",id:"dampak",ex:"What's the impact of this issue?"},
+    {en:"severity",ph:"seh-VER-ih-tee",id:"tingkat keparahan",ex:"This is a high severity bug."},
+    {en:"reproduce",ph:"ree-preh-DYOOS",id:"memunculkan ulang masalah",ex:"Can you reproduce the issue?"},
+    {en:"workaround",ph:"WER-keh-rownd",id:"solusi sementara",ex:"There's a workaround for now."},
+    {en:"escalate",ph:"ES-keh-layt",id:"naikkan ke atasan",ex:"We need to escalate this to leadership."},
+    {en:"triage",ph:"TREE-ahzh",id:"sortir berdasarkan prioritas",ex:"Let's triage the issues first."},
+    {en:"resolve",ph:"reh-ZOLV",id:"menyelesaikan masalah",ex:"This issue has been resolved."},
+    {en:"regression",ph:"reh-GRESH-en",id:"masalah yang muncul lagi",ex:"This looks like a regression."},
+  ]},
+  {icon:"📊",title:"Analisis Data",words:[
+    {en:"trend",ph:"trend",id:"tren / pola",ex:"I see a downward trend in retention."},
+    {en:"drop",ph:"drop",id:"penurunan",ex:"There's a significant drop in DAU."},
+    {en:"spike",ph:"spayk",id:"lonjakan tiba-tiba",ex:"We had a spike in errors yesterday."},
+    {en:"conversion rate",ph:"ken-VER-zhen rayt",id:"tingkat konversi",ex:"Conversion rate improved by 5%."},
+    {en:"baseline",ph:"BAYS-lain",id:"angka dasar pembanding",ex:"What's our baseline for this metric?"},
+    {en:"insight",ph:"IN-sayt",id:"temuan penting dari data",ex:"The key insight is that users drop off here."},
+    {en:"cohort",ph:"KOH-hort",id:"kelompok user berdasar waktu",ex:"The April cohort performs better."},
+    {en:"funnel",ph:"FAN-nel",id:"alur konversi user",ex:"There's a big drop in the funnel here."},
+    {en:"benchmark",ph:"BENCH-mark",id:"standar perbandingan",ex:"How do we compare to the benchmark?"},
+  ]},
+  {icon:"🖼️",title:"Presentasi & Slide",words:[
+    {en:"deck",ph:"dek",id:"kumpulan slide presentasi",ex:"I'm preparing the deck for Friday."},
+    {en:"executive summary",ph:"eg-ZEK-yeh-tiv SAM-eh-ree",id:"ringkasan untuk pimpinan",ex:"Put the key points in the exec summary."},
+    {en:"highlight",ph:"HAY-layt",id:"poin utama yang ditonjolkan",ex:"The highlight of this quarter is growth."},
+    {en:"breakdown",ph:"BRAYK-down",id:"rincian / penjelasan per bagian",ex:"Here's a breakdown of the numbers."},
+    {en:"narrative",ph:"NAR-reh-tiv",id:"alur cerita presentasi",ex:"We need a clear narrative for this deck."},
+    {en:"takeaway",ph:"TAYK-eh-way",id:"poin yang dibawa pulang audiens",ex:"The main takeaway is we need to pivot."},
+    {en:"walk through",ph:"wok throo",id:"menjelaskan step by step",ex:"Let me walk you through the roadmap."},
+    {en:"key message",ph:"kee MES-ij",id:"pesan utama",ex:"The key message of this slide is growth."},
+  ]},
 ];
 
 // ================================================================
 // STATE
 // ================================================================
-const SK = 'arip_v2';
+const SK = 'arip_v3';
 function getState(){
-  try{return JSON.parse(localStorage.getItem(SK))||{checks:{},streak:0};}
-  catch{return{checks:{},streak:0};}
+  try{return JSON.parse(localStorage.getItem(SK))||{completed:[],inputs:{},timestamps:{},streak:0};}
+  catch{return{completed:[],inputs:{},timestamps:{},streak:0};}
 }
 function saveState(s){try{localStorage.setItem(SK,JSON.stringify(s));}catch{}}
-
 function todayKey(){return new Date().toISOString().slice(0,10);}
 function fmtKey(d){return d.toISOString().slice(0,10);}
 
 // ================================================================
-// CALENDAR STRIP
+// RECORDING STATE
 // ================================================================
-let selectedDate = todayKey();
+let _recorder=null, _chunks=[], _audioURLs={};
+let _listenIntervals={};
 
-function buildCalStrip(){
-  const strip = document.getElementById('cal-strip');
-  strip.innerHTML='';
-  const days=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
-  const state=getState();
-  const today=new Date();
-  for(let i=6;i>=0;i--){
-    const d=new Date(today);
-    d.setDate(today.getDate()-i);
-    const key=fmtKey(d);
-    const isToday=key===todayKey();
-    const isSelected=key===selectedDate;
-    const checks=state.checks[key]||{};
-    const hasDone=Object.values(checks).some(v=>v);
-    const el=document.createElement('div');
-    el.className='cal-day'+(isSelected?' active':'')+(hasDone&&!isSelected?' has-done':'');
-    el.innerHTML=`<div class="cd-name">${days[d.getDay()]}</div><div class="cd-num">${d.getDate()}${hasDone&&!isSelected?' ✓':''}</div>`;
-    el.onclick=()=>{selectedDate=key;buildCalStrip();renderTasks();};
-    strip.appendChild(el);
+// ================================================================
+// MISSION RENDERING
+// ================================================================
+function renderDoneView(m, state){
+  const saved=(state.inputs&&state.inputs[m.id])||'';
+  if(m.action==='write'||m.action==='reflect'){
+    return saved
+      ? `<div class="done-answer-wrap">
+           <div class="done-answer-label">Jawaban kamu:</div>
+           <div class="done-answer-text">${saved.replace(/\n/g,'<br>')}</div>
+           <div id="grammar-result-done-${m.id}" class="grammar-result" style="margin-top:8px;"></div>
+           <button class="btn-ac btn-grammar" style="margin-top:6px;" onclick="checkGrammarText(${m.id},'${saved.replace(/'/g,"\\'").replace(/\n/g,' ')}')">🔍 Cek Grammar</button>
+         </div>`
+      : `<div class="done-answer-wrap done-answer-empty">Tidak ada jawaban tersimpan.</div>`;
   }
+  if(m.action==='record'){
+    return `<div class="done-answer-wrap done-answer-empty">🎤 Rekaman tidak tersimpan setelah refresh — tapi misi sudah tercatat selesai.</div>`;
+  }
+  if(m.action==='shadow'){
+    return `<div class="done-answer-wrap"><div class="done-answer-label">Kalimat yang di-shadow:</div><div class="done-answer-text" style="color:var(--yellow);font-family:'JetBrains Mono',monospace;">${m.stext}</div></div>`;
+  }
+  if(m.action==='listen'){
+    return `<div class="done-answer-wrap done-answer-empty">✅ ${m.mins} menit listening selesai.</div>`;
+  }
+  if(m.action==='external'){
+    return `<div class="done-answer-wrap done-answer-empty">✅ Sesi eksternal selesai.</div>`;
+  }
+  return '';
 }
 
-// ================================================================
-// TASKS
-// ================================================================
-function renderTasks(){
+function getCurrentMissionId(){
+  const s=getState();
+  const done=new Set(s.completed);
+  const m=MISSIONS.find(m=>!done.has(m.id));
+  return m?m.id:null;
+}
+
+function renderMissionPanel(){
   const state=getState();
-  const checks=state.checks[selectedDate]||{};
-  const allIds=[...REQUIRED_TASKS.map(t=>t.id),...BONUS_TASKS.map(t=>t.id)];
-  const doneCount=allIds.filter(id=>checks[id]).length;
-  const reqDone=REQUIRED_TASKS.filter(t=>checks[t.id]).length;
-  const pct=Math.round(doneCount/allIds.length*100);
+  const done=new Set(state.completed);
+  const currentId=getCurrentMissionId();
 
-  document.getElementById('pb-pct').textContent=pct+'%';
-  document.getElementById('pb-fill').style.width=pct+'%';
-  const banner=document.getElementById('complete-banner');
-  banner.classList.toggle('show', reqDone===REQUIRED_TASKS.length);
-
-  renderTaskGroup('tasks-required', REQUIRED_TASKS, checks, 'wajib');
-  renderTaskGroup('tasks-bonus', BONUS_TASKS, checks, 'bonus');
-}
-
-function renderTaskGroup(containerId, tasks, checks, type){
-  const c=document.getElementById(containerId);
-  c.innerHTML='';
-  tasks.forEach(t=>{
-    const done=!!checks[t.id];
-    const card=document.createElement('div');
-    card.className='task-card'+(done?' done-card':'');
-    card.innerHTML=`
-      <div class="task-header">
-        <div class="task-check${done?' checked':''}" onclick="toggleTask('${t.id}')">${done?'✓':''}</div>
-        <div class="task-meta">
-          <div class="task-badge badge-${type}">${type.toUpperCase()}</div>
-          <div class="task-title${done?' striked':''}">${t.title}</div>
-        </div>
+  // level progress
+  const wrap=document.getElementById('level-progress-wrap');
+  const pct=Math.round(done.size/112*100);
+  const currentM=currentId?MISSIONS.find(m=>m.id===currentId):null;
+  const phaseName=currentM?PHASE_NAMES[currentM.ph]:'Kurikulum Selesai! 🎓';
+  wrap.innerHTML=`
+    <div class="level-progress">
+      <div class="lp-top">
+        <span class="lp-phase">${phaseName}</span>
+        <span class="lp-nums">${done.size}/112</span>
       </div>
-      <div class="task-desc">${t.desc}</div>
-      <div class="task-example"><em>Contoh / Rekomendasi:</em>${t.example}</div>
-    `;
-    c.appendChild(card);
+      <div class="lp-track"><div class="lp-fill" style="width:${pct}%"></div></div>
+      <div class="lp-phase-dots">
+        ${[1,2,3,4].map(p=>{
+          const phMissions=MISSIONS.filter(m=>m.ph===p);
+          const phDone=phMissions.filter(m=>done.has(m.id)).length;
+          const cls=phDone===phMissions.length?'done':(phMissions.some(m=>!done.has(m.id))&&currentM&&currentM.ph===p?'active':'');
+          return `<div class="lp-pd ${cls}" title="Phase ${p}"></div>`;
+        }).join('')}
+      </div>
+    </div>`;
+
+  // mission path
+  const pathWrap=document.getElementById('mission-path-wrap');
+  pathWrap.innerHTML='';
+
+  [1,2,3,4].forEach(ph=>{
+    const phMissions=MISSIONS.filter(m=>m.ph===ph);
+    const phDone=phMissions.filter(m=>done.has(m.id)).length;
+    const isCurrentPhase=currentM&&currentM.ph===ph;
+    const isLocked=!isCurrentPhase&&phDone<phMissions.length&&(!currentM||ph>currentM.ph);
+
+    const sec=document.createElement('div');
+    sec.className='phase-section';
+
+    const hdr=document.createElement('div');
+    hdr.className='phase-hdr';
+    hdr.innerHTML=`
+      <span class="phase-badge pb-${ph}">Phase ${ph}</span>
+      <span class="phase-hdr-title">${['Ear Training','Low-Stakes Speaking','PM Scenarios I','Real Exposure'][ph-1]} · ${phDone}/${phMissions.length}</span>
+      <span class="phase-hdr-arr ${isCurrentPhase||phDone===phMissions.length?'open':''}" id="pharr-${ph}">▼</span>`;
+    hdr.onclick=()=>togglePhase(ph);
+
+    const missions=document.createElement('div');
+    missions.className='phase-missions'+(isCurrentPhase||phDone===phMissions.length?' open':'');
+    missions.id=`phase-${ph}`;
+
+    const path=document.createElement('div');
+    path.className='mission-path';
+
+    phMissions.forEach(m=>{
+      const isDone=done.has(m.id);
+      const isCurrent=m.id===currentId;
+      const status=isDone?'mdone':isCurrent?'mcurrent':'mlocked';
+      const icon=isDone?'✅':isCurrent?'▶':'🔒';
+
+      const item=document.createElement('div');
+      item.className='mission-item';
+      item.id=`mitem-${m.id}`;
+
+      item.innerHTML=`
+        <div class="mission-dot ${status}">${isDone?'✓':isCurrent?'▶':''}</div>
+        <div class="mission-card ${status}">
+          <div class="mission-card-hdr" id="mhdr-${m.id}">
+            <span class="mc-num">#${m.id}</span>
+            <div class="mc-info">
+              <div class="mc-focus">${m.focus}</div>
+              <div class="mc-week">Week ${m.wk} · Day ${m.dy}</div>
+            </div>
+            <span class="mc-icon">${icon}</span>
+          </div>
+          ${(isCurrent||isDone)?`<div class="mission-body" id="mbody-${m.id}" style="${isDone?'display:none':''}">
+            <div class="mb-task">${m.task}</div>
+            <div class="mb-entry">${m.entry}</div>
+            ${isDone ? renderDoneView(m, state) : `<div class="action-area" id="action-${m.id}"></div>`}
+          </div>`:''}
+        </div>`;
+
+      path.appendChild(item);
+      missions.appendChild(path);
+
+      // toggle done missions
+      if(isDone){
+        item.querySelector(`#mhdr-${m.id}`).onclick=()=>{
+          const body=document.getElementById(`mbody-${m.id}`);
+          if(body) body.style.display=body.style.display==='none'?'':'none';
+        };
+      }
+    });
+
+    sec.appendChild(hdr);
+    sec.appendChild(missions);
+    pathWrap.appendChild(sec);
   });
-}
 
-function toggleTask(id){
-  const state=getState();
-  if(!state.checks[selectedDate]) state.checks[selectedDate]={};
-  state.checks[selectedDate][id]=!state.checks[selectedDate][id];
-  // recalculate streak
-  state.streak=calcStreak(state.checks);
-  saveState(state);
-  renderTasks();
-  buildCalStrip();
-  renderStreak();
-}
-
-function calcStreak(checks){
-  let streak=0;
-  const today=new Date();
-  for(let i=0;i<365;i++){
-    const d=new Date(today);
-    d.setDate(today.getDate()-i);
-    const key=fmtKey(d);
-    const dayChecks=checks[key]||{};
-    const reqDone=REQUIRED_TASKS.filter(t=>dayChecks[t.id]).length;
-    if(reqDone>0) streak++;
-    else if(i>0) break;
+  // init action area for current mission
+  if(currentId){
+    const m=MISSIONS.find(x=>x.id===currentId);
+    if(m) initActionArea(m);
+    // scroll to current
+    setTimeout(()=>{
+      const el=document.getElementById(`mitem-${currentId}`);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+    },100);
   }
-  return streak;
+}
+
+function togglePhase(ph){
+  const el=document.getElementById(`phase-${ph}`);
+  const arr=document.getElementById(`pharr-${ph}`);
+  if(!el) return;
+  const open=el.classList.contains('open');
+  el.classList.toggle('open',!open);
+  arr&&arr.classList.toggle('open',!open);
+}
+
+// ================================================================
+// ACTION AREAS
+// ================================================================
+function initActionArea(m){
+  const area=document.getElementById(`action-${m.id}`);
+  if(!area) return;
+  const state=getState();
+  const savedInput=state.inputs[m.id]||'';
+
+  if(m.action==='write'||m.action==='reflect'){
+    area.innerHTML=`
+      <textarea class="action-textarea" id="ainput-${m.id}" placeholder="${m.prompt||'Tulis di sini...'}">${savedInput}</textarea>
+      <button class="btn-ac btn-done ${savedInput.length>=3?'ready':''}" id="abtn-${m.id}" onclick="completeMission(${m.id})">✓ Tandai Selesai</button>`;
+    const ta=document.getElementById(`ainput-${m.id}`);
+    ta.addEventListener('paste',e=>{e.preventDefault();showToast('Harus ketik manual ✍️');});
+    ta.addEventListener('drop',e=>{e.preventDefault();showToast('Harus ketik manual ✍️');});
+    ta.oninput=()=>{
+      const val=ta.value.trim();
+      const s=getState(); s.inputs[m.id]=ta.value; saveState(s);
+      document.getElementById(`abtn-${m.id}`).classList.toggle('ready',val.length>=3);
+    };
+
+  } else if(m.action==='record'){
+    area.innerHTML=`
+      <div class="record-area">
+        <button class="btn-ac btn-record-start" id="abtn-rec-${m.id}" onclick="toggleRecord(${m.id})">🎤 Mulai Rekam</button>
+        <div id="aplayer-${m.id}"></div>
+      </div>
+      <button class="btn-ac btn-done" id="abtn-${m.id}" onclick="completeMission(${m.id})">✓ Tandai Selesai</button>`;
+    if(_audioURLs[m.id]) showAudioPlayer(m.id, _audioURLs[m.id]);
+
+  } else if(m.action==='listen'){
+    const mins=m.mins||5;
+    area.innerHTML=`
+      <div class="listen-box">
+        <div class="listen-timer" id="timer-${m.id}">${mins}:00</div>
+        <div class="listen-info" id="linfo-${m.id}">Timer ${mins} menit. Putar kontenmu, lalu tap Mulai.</div>
+      </div>
+      <button class="btn-ac btn-listen-go" onclick="startListenTimer(${m.id},${mins})">▶ Mulai Timer</button>
+      <button class="btn-ac btn-done" id="abtn-${m.id}" onclick="completeMission(${m.id})">✓ Tandai Selesai</button>`;
+
+  } else if(m.action==='shadow'){
+    area.innerHTML=`
+      <div class="shadow-text-box">
+        <span class="shadow-text">${m.stext}</span>
+        <button class="speak-btn" title="Dengar">🔊</button>
+      </div>
+      <button class="btn-ac btn-done" id="abtn-${m.id}" onclick="completeMission(${m.id})">✓ Tandai Selesai (setelah tirukan)</button>`;
+    const btn=area.querySelector('.speak-btn');
+    let played=false;
+    btn.onclick=()=>{
+      speak(m.stext,btn);
+      if(!played){
+        played=true;
+        setTimeout(()=>document.getElementById(`abtn-${m.id}`)&&document.getElementById(`abtn-${m.id}`).classList.add('ready'),300);
+      }
+    };
+    // shadow always enable selesai (user self-reports)
+    const doneBtn=document.getElementById(`abtn-${m.id}`);
+    if(doneBtn) doneBtn.classList.add('ready');
+
+  } else if(m.action==='external'){
+    area.innerHTML=`
+      <div class="external-note">${m.note}</div>
+      <button class="btn-ac btn-done ready" id="abtn-${m.id}" onclick="completeMission(${m.id})">✓ Tandai Selesai</button>`;
+  }
+}
+
+// ================================================================
+// RECORD
+// ================================================================
+async function toggleRecord(mId){
+  const btn=document.getElementById(`abtn-rec-${mId}`);
+  if(_recorder&&_recorder.state==='recording'){
+    _recorder.stop();
+    btn.className='btn-ac btn-record-start';
+    btn.textContent='🎤 Rekam Ulang';
+    return;
+  }
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    _chunks=[];
+    _recorder=new MediaRecorder(stream);
+    _recorder.ondataavailable=e=>{if(e.data.size>0)_chunks.push(e.data);};
+    _recorder.onstop=()=>{
+      stream.getTracks().forEach(t=>t.stop());
+      const blob=new Blob(_chunks,{type:'audio/webm'});
+      _audioURLs[mId]=URL.createObjectURL(blob);
+      showAudioPlayer(mId,_audioURLs[mId]);
+      const db=document.getElementById(`abtn-${mId}`);
+      if(db) db.classList.add('ready');
+    };
+    _recorder.start();
+    btn.className='btn-ac btn-record-stop';
+    btn.textContent='⏹ Stop Rekam';
+  } catch(e){
+    showToast('Izin mikrofon diperlukan ⚠️');
+  }
+}
+
+function showAudioPlayer(mId,url){
+  const p=document.getElementById(`aplayer-${mId}`);
+  if(!p) return;
+  p.innerHTML=`<audio class="record-player" controls src="${url}"></audio>`;
+}
+
+// ================================================================
+// LISTEN TIMER
+// ================================================================
+function startListenTimer(mId,mins){
+  if(_listenIntervals[mId]) clearInterval(_listenIntervals[mId]);
+  let remaining=mins*60;
+  const timerEl=document.getElementById(`timer-${mId}`);
+  const infoEl=document.getElementById(`linfo-${mId}`);
+  if(infoEl) infoEl.textContent='Timer berjalan... dengarkan kontenmu.';
+  _listenIntervals[mId]=setInterval(()=>{
+    remaining--;
+    if(timerEl){
+      const m=Math.floor(remaining/60),s=remaining%60;
+      timerEl.textContent=`${m}:${s.toString().padStart(2,'0')}`;
+    }
+    if(remaining<=0){
+      clearInterval(_listenIntervals[mId]);
+      if(timerEl) timerEl.textContent='✓';
+      if(infoEl) infoEl.textContent='Selesai! Tandai misi.';
+      const db=document.getElementById(`abtn-${mId}`);
+      if(db) db.classList.add('ready');
+    }
+  },1000);
+}
+
+// ================================================================
+// COMPLETE MISSION
+// ================================================================
+function completeMission(id){
+  const state=getState();
+  if(state.completed.includes(id)) return;
+  state.completed.push(id);
+  state.timestamps[id]=todayKey();
+  state.streak=calcStreak(state);
+  saveState(state);
+  const nextId=state.completed.length<112?
+    MISSIONS.find(m=>!state.completed.includes(m.id))?.id:null;
+  renderMissionPanel();
+  renderStreak();
+  if(nextId){
+    showToast(`🎉 Misi ${id} selesai! Misi ${nextId} terbuka.`,true);
+  } else {
+    showToast('🎓 Semua misi selesai! Luar biasa!',true);
+  }
 }
 
 // ================================================================
 // STREAK
 // ================================================================
+function calcStreak(state){
+  const ts=state.timestamps||{};
+  const dates=new Set(Object.values(ts));
+  let streak=0;
+  const today=new Date();
+  for(let i=0;i<365;i++){
+    const d=new Date(today);
+    d.setDate(today.getDate()-i);
+    if(dates.has(fmtKey(d))) streak++;
+    else if(i>0) break;
+  }
+  return streak;
+}
+
 function renderStreak(){
   const state=getState();
   document.getElementById('streak-num').textContent=state.streak;
@@ -529,12 +1228,12 @@ function renderStreak(){
   dots.innerHTML='';
   const days=['M','S','S','R','K','J','S'];
   const today=new Date();
+  const ts=state.timestamps||{};
+  const datesWithActivity=new Set(Object.values(ts));
   for(let i=6;i>=0;i--){
-    const d=new Date(today);
-    d.setDate(today.getDate()-i);
+    const d=new Date(today); d.setDate(today.getDate()-i);
     const key=fmtKey(d);
-    const checks=state.checks[key]||{};
-    const done=REQUIRED_TASKS.some(t=>checks[t.id]);
+    const done=datesWithActivity.has(key);
     const isToday=key===todayKey();
     const dot=document.createElement('div');
     dot.className='wd'+(done?' done':'')+(isToday?' today':'');
@@ -551,46 +1250,42 @@ function renderPhrases(filter=''){
   c.innerHTML='';
   const q=filter.toLowerCase().trim();
   let anyResult=false;
-
   PHRASES_DATA.forEach((cat,ci)=>{
-    const filtered=q?cat.items.filter(p=>
-      p.en.toLowerCase().includes(q)||
-      p.id.toLowerCase().includes(q)||
-      (p.blank&&p.blank.toLowerCase().includes(q))
-    ):cat.items;
+    const filtered=q?cat.items.filter(p=>p.en.toLowerCase().includes(q)||p.id.toLowerCase().includes(q)||(p.blank&&p.blank.toLowerCase().includes(q))):cat.items;
     if(!filtered.length) return;
     anyResult=true;
-
     const block=document.createElement('div');
     block.className='cat-block';
     const hdr=document.createElement('div');
     hdr.className='cat-hdr';
     hdr.innerHTML=`<span class="cat-hdr-icon">${cat.icon}</span><span class="cat-hdr-title">${cat.title}</span><span class="cat-hdr-count">${filtered.length}</span><span class="cat-hdr-arr" id="parr-${ci}">▼</span>`;
     hdr.onclick=()=>togglePhraseGroup(ci);
-
     const list=document.createElement('div');
     list.className='phrase-list'+((!q&&ci>0)?'':' open');
     list.id=`plist-${ci}`;
-    if(!q&&ci>0) document.getElementById&&setTimeout(()=>{},0);
-
     filtered.forEach(p=>{
       const item=document.createElement('div');
       item.className='phrase-item';
-      item.innerHTML=`<div class="pi-en">${p.en}</div><div class="pi-id">${p.id}</div>${p.blank?`<div class="pi-blank">→ ${p.blank}</div>`:''}`;
+      item.innerHTML=`
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;">
+          <div style="flex:1;">
+            <div class="pi-en">${p.en}</div>
+            <div class="pi-id">${p.id}</div>
+            ${p.blank?`<div class="pi-blank">→ ${p.blank}</div>`:''}
+          </div>
+          <button class="speak-btn" title="Dengar">🔊</button>
+        </div>`;
+      const btn=item.querySelector('.speak-btn');
+      btn.onclick=(e)=>{e.stopPropagation();speak(p.en,btn);};
       item.onclick=()=>copyText(p.en);
       list.appendChild(item);
     });
-
     block.appendChild(hdr);
     block.appendChild(list);
     c.appendChild(block);
-
-    if(!q&&ci===0) togglePhraseGroupById(`plist-0`,`parr-0`,true);
+    if(!q&&ci===0){list.classList.add('open');const a=document.getElementById(`parr-${ci}`);if(a)a.classList.add('open');}
   });
-
-  if(!anyResult){
-    c.innerHTML=`<div class="no-result">Tidak ada phrase yang cocok dengan "<b>${filter}</b>"</div>`;
-  }
+  if(!anyResult) c.innerHTML=`<div class="no-result">Tidak ada phrase cocok dengan "<b>${filter}</b>"</div>`;
 }
 
 function togglePhraseGroup(ci){
@@ -602,18 +1297,7 @@ function togglePhraseGroup(ci){
   arr&&arr.classList.toggle('open',!open);
 }
 
-function togglePhraseGroupById(listId,arrId,forceOpen){
-  const list=document.getElementById(listId);
-  const arr=document.getElementById(arrId);
-  if(!list) return;
-  list.classList.toggle('open',forceOpen);
-  arr&&arr.classList.toggle('open',forceOpen);
-}
-
-function filterPhrases(){
-  const q=document.getElementById('phrase-search').value;
-  renderPhrases(q);
-}
+function filterPhrases(){renderPhrases(document.getElementById('phrase-search').value);}
 
 // ================================================================
 // VOCAB
@@ -622,7 +1306,6 @@ function renderVocab(){
   const c=document.getElementById('vocab-container');
   c.innerHTML='';
   document.getElementById('vocab-search-results').innerHTML='';
-
   VOCAB_DATA.forEach((grp,gi)=>{
     const div=document.createElement('div');
     div.className='vocab-grp';
@@ -633,10 +1316,8 @@ function renderVocab(){
     const list=document.createElement('div');
     list.className='vocab-list'+(gi===0?' open':'');
     list.id=`vlist-${gi}`;
-    grp.words.forEach(w=>{
-      list.appendChild(makeVocabCard(w));
-    });
-    if(gi===0) document.getElementById&&setTimeout(()=>{const a=document.getElementById('varr-0');a&&a.classList.add('open');},0);
+    grp.words.forEach(w=>list.appendChild(makeVocabCard(w)));
+    if(gi===0) setTimeout(()=>{const a=document.getElementById('varr-0');if(a)a.classList.add('open');},0);
     div.appendChild(hdr);
     div.appendChild(list);
     c.appendChild(div);
@@ -646,7 +1327,18 @@ function renderVocab(){
 function makeVocabCard(w){
   const card=document.createElement('div');
   card.className='vocab-card';
-  card.innerHTML=`<div class="vc-en">${w.en}</div><div class="vc-id">${w.id}</div><div class="vc-ex">"${w.ex}"</div>`;
+  card.innerHTML=`
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;">
+      <div style="flex:1;">
+        <div class="vc-en">${w.en}</div>
+        ${w.ph?`<div class="vc-ph">/${w.ph}/</div>`:''}
+        <div class="vc-id">${w.id}</div>
+        <div class="vc-ex">"${w.ex}"</div>
+      </div>
+      <button class="speak-btn" title="Dengar">🔊</button>
+    </div>`;
+  const btn=card.querySelector('.speak-btn');
+  btn.onclick=(e)=>{e.stopPropagation();speak(w.en,btn);};
   card.onclick=()=>copyText(w.en);
   return card;
 }
@@ -664,29 +1356,16 @@ function filterVocab(){
   const q=document.getElementById('vocab-search').value.toLowerCase().trim();
   const resultBox=document.getElementById('vocab-search-results');
   const mainBox=document.getElementById('vocab-container');
-
-  if(!q){
-    resultBox.innerHTML='';
-    mainBox.style.display='';
-    return;
-  }
-
+  if(!q){resultBox.innerHTML='';mainBox.style.display='';return;}
   mainBox.style.display='none';
   resultBox.innerHTML='';
-
   const allWords=[];
   VOCAB_DATA.forEach(grp=>grp.words.forEach(w=>allWords.push({...w,group:grp.title})));
-  const filtered=allWords.filter(w=>
-    w.en.toLowerCase().includes(q)||
-    w.id.toLowerCase().includes(q)||
-    w.ex.toLowerCase().includes(q)
-  );
-
+  const filtered=allWords.filter(w=>w.en.toLowerCase().includes(q)||w.id.toLowerCase().includes(q)||w.ex.toLowerCase().includes(q));
   if(!filtered.length){
-    resultBox.innerHTML=`<div class="no-result">Tidak ada vocab yang cocok dengan "<b>${q}</b>"<br><span style="font-size:11px;color:var(--muted)">Coba cari dalam bahasa Inggris atau Indonesia</span></div>`;
+    resultBox.innerHTML=`<div class="no-result">Tidak ada vocab cocok dengan "<b>${q}</b>"</div>`;
     return;
   }
-
   const label=document.createElement('div');
   label.className='vocab-result-label';
   label.textContent=`${filtered.length} hasil untuk "${q}"`;
@@ -697,44 +1376,185 @@ function filterVocab(){
 // ================================================================
 // UTILS
 // ================================================================
+function speak(text,btn){
+  if(!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utt=new SpeechSynthesisUtterance(text);
+  utt.lang='en-US';utt.rate=0.85;
+  if(btn){
+    utt.onstart=()=>{btn.textContent='⏹';btn.classList.add('speaking');};
+    utt.onend=()=>{btn.textContent='🔊';btn.classList.remove('speaking');};
+    utt.onerror=()=>{btn.textContent='🔊';btn.classList.remove('speaking');};
+  }
+  window.speechSynthesis.speak(utt);
+}
+
 function copyText(text){
   navigator.clipboard.writeText(text).catch(()=>{});
+  showToast('Disalin! ✓');
+}
+
+let _toastTimer=null;
+function showToast(msg,isLevelUp=false){
   const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast'+(isLevelUp?' level-up':'');
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),1500);
+  if(_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>t.classList.remove('show'),isLevelUp?2500:1500);
 }
 
 function switchTab(name){
   document.querySelectorAll('.tab').forEach((t,i)=>{
-    t.classList.toggle('active',['checklist','phrases','vocab'][i]===name);
+    t.classList.toggle('active',['misi','phrases','vocab'][i]===name);
   });
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById(`panel-${name}`).classList.add('active');
 }
 
-// ================================================================
-// HEADER DATE
-// ================================================================
 function setHeaderDate(){
   const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
   document.getElementById('header-date').textContent=new Date().toLocaleDateString('id-ID',opts);
 }
 
 // ================================================================
+// GRAMMAR CHECK
+// ================================================================
+function grammarErrMsg(match, text){
+  const original=text.substring(match.offset,match.offset+match.length);
+  const cat=match.rule?.category?.id||'';
+  const sug=match.replacements[0]?.value||'';
+  let penjelasan='Bagian ini perlu diperbaiki.';
+  if(cat==='TYPOS'||cat==='SPELLING') penjelasan=`Ejaan kata ini tidak tepat.`;
+  else if(cat==='GRAMMAR') penjelasan=`Tata bahasa di sini tidak tepat.`;
+  else if(cat==='PUNCTUATION') penjelasan=`Tanda baca perlu diperbaiki.`;
+  else if(cat==='CASING') penjelasan=`Huruf besar/kecil perlu diperbaiki.`;
+  else if(cat==='CONFUSED_WORDS') penjelasan=`Kata ini sering tertukar dengan kata lain.`;
+  else if(cat==='REDUNDANCY') penjelasan=`Ada kata yang berulang/tidak perlu.`;
+  return {original, penjelasan};
+}
+
+function renderGrammarMatches(matches, text, mId, allowApply){
+  return matches.map(m=>{
+    const {original, penjelasan}=grammarErrMsg(m, text);
+    const sugs=m.replacements.slice(0,3);
+    const sugHtml=sugs.length
+      ? sugs.map(s=>allowApply
+          ? `<button class="ge-sug" onclick="applySuggestion(${mId},${m.offset},${m.length},'${s.value.replace(/'/g,"\\'")}')">✓ ${s.value}</button>`
+          : `<span class="ge-sug" style="cursor:default;">✓ ${s.value}</span>`
+        ).join('')
+      : '';
+    return `<div class="grammar-error-item">
+      <div class="ge-msg">❌ Kamu menulis: <span style="color:var(--red);font-family:'JetBrains Mono',monospace;">"${original}"</span></div>
+      <div class="ge-msg" style="margin-top:3px;">💡 ${penjelasan}</div>
+      ${sugHtml?`<div style="margin-top:6px;font-size:11px;color:var(--muted2);">Seharusnya:</div><div class="ge-suggestions">${sugHtml}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function checkGrammar(mId){
+  const ta=document.getElementById(`ainput-${mId}`);
+  const resultBox=document.getElementById(`grammar-result-${mId}`);
+  const text=(ta?.value||'').trim();
+  if(!text){resultBox.innerHTML='';return;}
+  resultBox.innerHTML='<div class="grammar-checking">Mengecek grammar...</div>';
+  try{
+    const params=new URLSearchParams({text,language:'en-US'});
+    const res=await fetch('https://api.languagetool.org/v2/check',{method:'POST',body:params});
+    if(!res.ok) throw new Error();
+    const data=await res.json();
+    const matches=data.matches||[];
+    if(!matches.length){resultBox.innerHTML='<div class="grammar-ok">✓ Tidak ada kesalahan grammar!</div>';return;}
+    resultBox.innerHTML=renderGrammarMatches(matches,text,mId,true);
+  } catch(e){
+    resultBox.innerHTML='<div class="grammar-checking">Gagal cek grammar. Cek koneksi internet.</div>';
+  }
+}
+
+async function checkGrammarText(mId, text){
+  const resultBox=document.getElementById(`grammar-result-done-${mId}`);
+  if(!resultBox||!text.trim()) return;
+  resultBox.innerHTML='<div class="grammar-checking">🔍 Mengecek grammar...</div>';
+  try{
+    const params=new URLSearchParams({text:text.trim(),language:'en-US'});
+    const res=await fetch('https://api.languagetool.org/v2/check',{method:'POST',body:params});
+    if(!res.ok) throw new Error();
+    const data=await res.json();
+    const matches=data.matches||[];
+    if(!matches.length){resultBox.innerHTML='<div class="grammar-ok">✓ Grammar sudah benar!</div>';return;}
+    resultBox.innerHTML=renderGrammarMatches(matches,text,mId,false);
+  } catch(e){
+    resultBox.innerHTML='<div class="grammar-checking">Gagal cek grammar.</div>';
+  }
+}
+
+function applySuggestion(mId, offset, length, replacement){
+  const ta=document.getElementById(`ainput-${mId}`);
+  if(!ta) return;
+  const before=ta.value.substring(0,offset);
+  const after=ta.value.substring(offset+length);
+  ta.value=before+replacement+after;
+  ta.dispatchEvent(new Event('input'));
+  checkGrammar(mId);
+}
+
+// ================================================================
+// TRANSLATE
+// ================================================================
+let _translateDir='id|en'; // id→en default
+
+function swapLang(){
+  _translateDir=_translateDir==='id|en'?'en|id':'id|en';
+  const label=document.getElementById('tlang-label');
+  if(label) label.textContent=_translateDir==='id|en'?'🇮🇩 Indonesia → 🇬🇧 English':'🇬🇧 English → 🇮🇩 Indonesia';
+  document.getElementById('translate-result').innerHTML='';
+}
+
+async function doTranslate(){
+  const input=document.getElementById('translate-input');
+  const resultBox=document.getElementById('translate-result');
+  const text=input.value.trim();
+  if(!text) return;
+
+  resultBox.innerHTML='<div class="tr-loading">Menerjemahkan...</div>';
+
+  try{
+    const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${_translateDir}`;
+    const res=await fetch(url);
+    if(!res.ok) throw new Error();
+    const data=await res.json();
+
+    if(data.responseStatus!==200&&data.responseStatus!=='200') throw new Error();
+
+    const translated=data.responseData.translatedText;
+    const isEnResult=_translateDir==='id|en';
+
+    resultBox.innerHTML=`
+      <div class="translate-result-card">
+        <div class="tr-result-row">
+          <div class="tr-result-text" id="tr-text">${translated}</div>
+          ${isEnResult?`<button class="speak-btn" style="font-size:18px;margin-top:2px;" id="tr-speak">🔊</button>`:''}
+        </div>
+        <div class="tr-copy-hint">Tap teks untuk salin</div>
+      </div>`;
+
+    document.getElementById('tr-text').onclick=()=>copyText(translated);
+    if(isEnResult){
+      document.getElementById('tr-speak').onclick=()=>speak(translated,document.getElementById('tr-speak'));
+    }
+  } catch(e){
+    resultBox.innerHTML=`<div class="tr-error">Terjemahan gagal. Cek koneksi internet.</div>`;
+  }
+}
+
+// ================================================================
 // INIT
 // ================================================================
 setHeaderDate();
-buildCalStrip();
-renderTasks();
 renderStreak();
+renderMissionPanel();
 renderPhrases();
 renderVocab();
-
-// open first vocab group arrow
-setTimeout(()=>{
-  const a=document.getElementById('varr-0');
-  if(a) a.classList.add('open');
-},50);
 </script>
 </body>
 </html>
